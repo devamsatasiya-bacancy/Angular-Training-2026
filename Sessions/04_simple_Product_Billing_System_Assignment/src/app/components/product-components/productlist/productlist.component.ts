@@ -1,4 +1,4 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component, signal, computed, WritableSignal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -6,14 +6,6 @@ interface Product {
   id: number;
   name: string;
   price: number;
-}
-
-interface BillItem {
-  id: number;
-  name: string;
-  price: number;
-  quantity: number;
-  total: number;
 }
 
 @Component({
@@ -26,32 +18,25 @@ export class ProductListComponent {
   // Product data
   products: Product[] = [
     { id: 1, name: 'Laptop', price: 999 },
-    { id: 2, name: 'Mouse', price: 25 },
+    { id: 2, name: 'Mouse', price: 25},
     { id: 3, name: 'Keyboard', price: 79 },
+    
   ];
 
+
   // Quantity inputs for each product
-  quantities: Record<number, number> = { 1: 1, 2: 1, 3: 1 };
+  quantities = signal<Record<number, number>>({ 1: 1, 2: 1, 3: 1 });
 
-  billItems = signal<BillItem[]>([]);
+  // component.ts
+updateQty(id: number, qty: number) {
+  this.quantities.update(q => ( {...q, [id]: qty }));
+}
 
+  
+  productItems = signal<Product[]>(this.products);
 
-  grandTotal = computed(() =>
-    this.billItems().reduce((sum, item) => sum + item.total, 0)
-  );
-
-
-  generateBill() {
-    const items: BillItem[] = this.products
-      .filter((p) => this.quantities[p.id] > 0)
-      .map((p) => ({
-        id: p.id,
-        name: p.name,
-        price: p.price,
-        quantity: this.quantities[p.id],
-        total: p.price * this.quantities[p.id],
-      }));
-
-    this.billItems.set(items);
-  }
+  grandTotal = computed(() => {
+    
+    return this.productItems().reduce((sum, item) => sum + item.price * this.quantities()[item.id], 0);
+  });
 }

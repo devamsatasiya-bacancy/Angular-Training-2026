@@ -6,16 +6,18 @@
       <span class="product-name">{{ product.name }}</span>
       <span class="product-price">${{ product.price }}</span>
       <input
+        
         type="number"
         min="1"
-        [(ngModel)]="quantities[product.id]"
+        [value]="quantities()[product.id]"
+        (input)="updateQty( product.id, $event.target.valueAsNumber)"
       />
     </div>
   }
 
-  <button class="btn-generate" (click)="generateBill()">Generate Bill</button>
+  <!-- <button class="btn-generate" (click)="grandTotal()">Generate Bill</button> -->
 
-  @if (billItems().length > 0) {
+
     <div class="bill-summary">
       <h2>Bill Summary</h2>
       <table>
@@ -27,18 +29,18 @@
             <th>Total</th>
           </tr>
         </thead>
-        <tbody>
-          @for (item of billItems(); track item.id) {
+        <tbody> 
+          @for (item of productItems(); track item.id) {
             <tr>
               <td>{{ item.name }}</td>
               <td>${{ item.price }}</td>
-              <td>{{ item.quantity }}</td>
-              <td>${{ item.total }}</td>
+              <td>{{ quantities()[item.id] }}</td>
+              <td>${{ item.price * quantities()[item.id] }}</td>
             </tr>
           }
         </tbody>
       </table>
       <p class="grand-total">Grand Total: ${{ grandTotal() }}</p>
     </div>
-  }
+
 </div>
