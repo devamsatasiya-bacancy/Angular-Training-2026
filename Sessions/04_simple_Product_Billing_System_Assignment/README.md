@@ -4,29 +4,7 @@ A simple Angular app built as a Day 4 learning exercise.
 
 ---
 
-## What it does
-
-- Shows 3 products with Name, Price, and a Quantity input
-- Click **Generate Bill** → calculates `price × quantity` for each product
-- Displays a **Bill Summary** table with a Grand Total
-
----
-
-## App Structure
-
-```
-app-root
-├── app-header       → shows the app title
-├── app-product-list → all the logic lives here
-└── app-footer       → simple footer
-```
-
----
-
-## Design Used
-
-**Standalone Components** — each component is self-contained (no NgModule needed).
-
+![Alt text for the image](billing_app.png)
 ---
 
 ## Data Flow
