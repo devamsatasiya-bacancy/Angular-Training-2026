@@ -1,0 +1,44 @@
+<div class="product-list">
+  <h2>Products</h2>
+
+  @for (product of products; track product.id) {
+    <div class="product-card">
+      <span class="product-name">{{ product.name }}</span>
+      <span class="product-price">${{ product.price }}</span>
+      <input
+        type="number"
+        min="1"
+        [(ngModel)]="quantities[product.id]"
+      />
+    </div>
+  }
+
+  <button class="btn-generate" (click)="generateBill()">Generate Bill</button>
+
+  @if (billItems().length > 0) {
+    <div class="bill-summary">
+      <h2>Bill Summary</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Qty</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of billItems(); track item.id) {
+            <tr>
+              <td>{{ item.name }}</td>
+              <td>${{ item.price }}</td>
+              <td>{{ item.quantity }}</td>
+              <td>${{ item.total }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+      <p class="grand-total">Grand Total: ${{ grandTotal() }}</p>
+    </div>
+  }
+</div>
