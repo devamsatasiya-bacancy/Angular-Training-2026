@@ -1,0 +1,65 @@
+<div class="data-binding">
+  <!-- this is one way binding from .ts to .html -->
+  <!-- <input type="text" [value]="inputdata" > -->
+
+  <!-- this is two binding -->
+  <label for="name">Enter your name: </label>
+  <input type="text" id="name" [(ngModel)]="inputdata" />
+  <h2>Hello {{ inputdata }}!</h2>
+
+  <button (click)="handleToggleButton()">
+    @if (togglebuttonvalue()) {
+      Hide
+    } @else {
+      Show
+    }
+  </button>
+
+  @if (togglebuttonvalue()) {
+    <div class="user-data">
+      <form action="" class="user-form">
+        <div>
+          <label for="fullName">Name:</label>
+          <input type="text" id="fullName" name="fullName" [(ngModel)]="userData().firstName" />
+        </div>
+
+        <div>
+          <label for="age">Age:</label>
+          <input type="number" id="age" name="age" [(ngModel)]="userData().age" />
+        </div>
+
+        <div>
+          <label for="gender">Gender:</label>
+          <input type="text" id="gender" name="gender" [(ngModel)]="userData().gender" />
+        </div>
+
+        <div>
+          <label for="bloodGroup">Blood Group:</label>
+          <input
+            type="text"
+            id="bloodGroup"
+            name="bloodGroup"
+            [(ngModel)]="userData().bloodGroup"
+          />
+        </div>
+
+        <div>
+          <label for="height">Height:</label>
+          <input type="text" id="height" name="height" [(ngModel)]="userData().height" />
+        </div>
+
+        <div>
+          <label for="birthDate">Birthdate:</label>
+          <input type="date" id="birthDate" name="birthDate" [(ngModel)]="userData().birthDate" />
+        </div>
+      </form>
+      <h2>Two Way Binding Data , Change the Above data and see the magic here👇🏻</h2>
+      <p>Name : {{ userData().firstName }}</p>
+      <p>Age : {{ userData().age }}</p>
+      <p>Gender : {{ userData().gender }}</p>
+      <p>BloodGroup : {{ userData().bloodGroup }}</p>
+      <p>Height : {{ userData().height }}</p>
+      <p>Birthdate : {{ userData().birthDate }}</p>
+    </div>
+  }
+</div>
