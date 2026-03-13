@@ -7,7 +7,7 @@
   <input type="text" id="name" [(ngModel)]="inputdata" />
   <h2>Hello {{ inputdata }}!</h2>
 
-  <button (click)="handleToggleButton()">
+  <button (click)="handleToggleButton($event)">
     @if (togglebuttonvalue()) {
       Hide
     } @else {

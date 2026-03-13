@@ -1,14 +1,18 @@
-import { Component, signal } from '@angular/core';
+import { Component, Injectable, isSignal, signal } from '@angular/core';
 import { FormsModule } from "@angular/forms";
+import { Logging } from '../../services/logging.service';
 
 @Component({
   selector: 'app-data-binding',
-  imports: [FormsModule],
+  imports: [FormsModule ],
   templateUrl: './data-binding.html',
   styleUrl: './data-binding.scss',
+  providers : [Logging ]
 })
+@Injectable({providedIn:'root' })
 export class DataBinding {
 
+  //public message = "hello";
   public userData = signal({
                     "id":1,
                     "firstName":"Terry",
@@ -34,14 +38,21 @@ export class DataBinding {
                     "ssn":"661-64-2976",
                     "userAgent":"Mozilla/5.0 ..."
                     }
-);
+                  );
 
   public inputdata:string = "hello";
 
-  
-  public togglebuttonvalue = signal<boolean>(true);
 
-  handleToggleButton():void{
+  public togglebuttonvalue = signal<boolean>(true);
+  //public toogglecom = computed(()=> this.togglebuttonvalue());
+                  
+  handleToggleButton(event:Event):void{
+    isSignal
+    console.log(event);
     this.togglebuttonvalue.update(value => !value);
+    
+
   }
+  
+  
 }
