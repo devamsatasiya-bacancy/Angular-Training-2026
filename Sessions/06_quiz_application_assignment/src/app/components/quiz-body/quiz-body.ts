@@ -1,14 +1,11 @@
 import { Component, computed, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-
-
-
-
+import { NgStyle } from '@angular/common';
 type GameStatus = "home" | "playing" | "end";
 const MAX_QUESTIONS = 5;
 @Component({
   selector: 'app-quiz-body',
-  imports: [FormsModule],
+  imports: [FormsModule, NgStyle],
   templateUrl: './quiz-body.html',
   styleUrls: ['./quiz-body.scss'],
 })
@@ -16,13 +13,14 @@ export class QuizBody {
 
 private correctanswers  = ["JavaScript", "File", "Cascading Style Sheets", "1995", "getElementById(id)"]
 
-startQuiz(){
+startQuiz(){ 
   this.gameStatus.set("playing")
 }
 public gameStatus = signal<GameStatus>("home");
 public userAnswers:string[]=[];
 public currentIndex = signal<number>(0);
-
+public percentagebody =0;
+public stars=[];
 showResult(){
   let score = 0;
   for (let index = 0; index < this.correctanswers.length; index++) {
@@ -30,13 +28,21 @@ showResult(){
       score++;
     }
   }
+   this.percentagebody = score/MAX_QUESTIONS;
+  
+
   return score;
 }
 public currentQuestion = computed(() =>
   this.QuizQuestions[this.currentIndex()]
 );
 
+// showstars(){
 
+//   for (let index = 0; index < this.starsbody; index++) {
+    
+//   }
+// }
 previousQuestion(){
 
   //this.userAnswers[this.currentIndex()] = this.currentanswer;

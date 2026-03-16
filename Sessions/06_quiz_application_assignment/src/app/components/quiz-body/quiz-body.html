@@ -1,36 +1,69 @@
 <div class="quiz-section">
-
-    @switch (gameStatus()) {
-        @case ("home") {
-            <div class="quiz-home">
-                <h1>Hello, Ready to Learn someting new ?? </h1>
-                <button (click)="startQuiz()">Start Quiz</button>
-            </div>
-        }
-        @case ("playing") {
-            <div class="quiz-playing">
-                
-                    <h2>{{currentQuestion().question}} </h2>
-                    <div class="quiz-question" >
-                        @for (option of currentQuestion().options; track $index){ 
-                           
-                           <div class="quiz-options" >
-                               <label for="{{option}}" >
-                                   <input  type="radio" name="{{currentQuestion().question}}" id="{{option}}" value="{{option}}" [(ngModel)] ="userAnswers[currentIndex()]">{{option}}
-                               </label>
-                           </div>
-                       }
-                    </div>
-                    <!-- //{{currentQuestion().question}} -->
-                    <button (click)="previousQuestion()">previous</button>
-                   <button (click)="nextQuestion()">next</button>
-                   <p>{{userAnswers}}</p>
-            </div>
-        }
-        @case ("end") {
-            <h2>Your Result</h2>
-            <p>{{showResult()}}</p>
-        }
-
+  @switch (gameStatus()) {
+    @case ('home') {
+      <div class="quiz-home">
+        <h1>Hello, Ready to Learn someting new ??</h1>
+        <button (click)="startQuiz()">Start Quiz</button>
+      </div>
     }
+    @case ('playing') {
+      <div class="quiz-playing">
+        <h2>{{ currentQuestion().question }}</h2>
+        <div class="quiz-question">
+          @for (option of currentQuestion().options; track $index) {
+            <div class="quiz-options">
+              <label for="{{ option }}">
+                <input
+                  type="radio"
+                  name="{{ currentQuestion().question }}"
+                  id="{{ option }}"
+                  value="{{ option }}"
+                  [(ngModel)]="userAnswers[currentIndex()]"
+                />{{ option }}
+              </label>
+            </div>
+          }
+        </div>
+        <!-- //{{currentQuestion().question}} -->
+        <button (click)="previousQuestion()">previous</button>
+        <button (click)="nextQuestion()">next</button>
+        <p>{{ userAnswers }}</p>
+      </div>
+    }
+    @case ('end') {
+      <h2>Your Result</h2>
+      <p>{{ showResult() }}</p>
+
+      @if (percentagebody == 0) {
+        <p></p>
+      } @else if (percentagebody <= 0.2) {
+                <span [ngStyle]="{
+            'color':'red',
+            
+        }">★</span>
+      }
+      @else if (percentagebody<=0.4) {
+        <p [ngStyle]="{
+            'color':'orange'
+        }">★★</p>
+      }
+      @else if (percentagebody <= 0.6) {
+                <p [ngStyle]="{
+            'color':'orange'
+        }">★★★</p>
+
+      }
+            @else if (percentagebody <= 0.9) {
+                <p [ngStyle]="{
+            'color':'yellow'
+        }">★★★★</p>
+
+      }
+      @else {
+                <p [ngStyle]="{
+            'color':'green'
+        }">★★★★★</p>
+      }
+    }
+  }
 </div>
