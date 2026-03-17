@@ -1,0 +1,34 @@
+<div class="book-form-section">
+  <div class="book-form">
+    <form [formGroup]="bookForm" (ngSubmit)="onSubmit()" >
+      <div class="title-input">
+        <label for="title">Title</label>
+        <input type="text" name="title" id="title" formControlName="title" />
+      </div>
+      <div class="title-input">
+        <label for="description">Description</label>
+        <input type="text" name="description" id="description" formControlName="description" />
+      </div>
+      <div class="author-input">
+        <label for="author">Author Name</label>
+        <input type="text" name="author" id="author" formControlName="author" />
+      </div>
+      <div class="author-input">
+        <label for="author">Price</label>
+        <input type="number" name="price" id="price" formControlName="price" />
+      </div>
+      <!-- <input type="button" value="submit" > -->
+
+      <button type="submit">Submit</button>
+      @if (this.bookForm.controls['price'].hasError("min") ||this.bookForm.controls['price'].hasError("max") ) {
+        <p>Please enter Price between 1 and 1000.</p>
+      }
+    </form>
+  </div>
+</div>
+
+<div class="book-list">
+    @if (booksList().length >0) {
+        <app-book-list [bookListData]="booksList()" />
+    }
+</div>
