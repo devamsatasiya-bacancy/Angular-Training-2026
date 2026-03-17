@@ -7,4 +7,6 @@ import { QuizBody } from '../components/quiz-body/quiz-body';
   templateUrl: './body.html',
   styleUrl: './body.scss',
 })
-export class Body {}
+export class Body {
+  public quizTitle = "Welcome to the Quiz"
+}

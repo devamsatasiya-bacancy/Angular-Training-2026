@@ -2,7 +2,9 @@
   @switch (gameStatus()) {
     @case ('home') {
       <div class="quiz-home">
+      
         <h1>Hello, Ready to Learn someting new ??</h1>
+        <h2>{{titledata()}}</h2>
         <button (click)="startQuiz()">Start Quiz</button>
       </div>
     }

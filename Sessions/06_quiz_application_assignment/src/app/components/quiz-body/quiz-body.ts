@@ -1,4 +1,4 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, input, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgStyle } from '@angular/common';
 type GameStatus = "home" | "playing" | "end";
@@ -10,7 +10,7 @@ const MAX_QUESTIONS = 5;
   styleUrls: ['./quiz-body.scss'],
 })
 export class QuizBody {
-
+public titledata = input();
 private correctanswers  = ["JavaScript", "File", "Cascading Style Sheets", "1995", "getElementById(id)"]
 
 startQuiz(){ 
@@ -53,8 +53,6 @@ previousQuestion(){
 
 nextQuestion(){ 
   //this.userAnswers[this.currentIndex()] = this.currentanswer;
-
-  
   console.log(this.userAnswers);
   if (this.currentIndex()<MAX_QUESTIONS) {
     this.currentIndex.update(value => value + 1);
