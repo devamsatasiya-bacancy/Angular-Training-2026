@@ -24,9 +24,8 @@
   margin: 0;
 }
 
-.book-price {
+.book-price , .book-author {
   font-size: 14px;
-  color: var(--color-muted);
   font-weight: 600;
   margin: 0;
   letter-spacing: 0.3px;
