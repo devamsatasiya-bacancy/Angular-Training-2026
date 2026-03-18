@@ -3,8 +3,8 @@
 }
 
 .book-form {
+  border: 1px solid #e62200;
   background-color: var(--color-surface);
-  border-radius: var(--radius-card);
   padding: 40px;
     }
 
@@ -46,33 +46,64 @@
 .input input:focus {
   outline: none;
   border-color: var(--color-primary);
-  background-color: var(--color-surface);
 }
 
-.book-form button {
-  background-color: var(--color-primary);
-  color: white;
-  padding: 14px 32px;
-  border: none;
-  border-radius: var(--radius-card);
-  font-size: 16px;
-  font-weight: 600;
+
+button {
+    position: relative;
+    height: 5em;
+    margin: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-primary);
+    padding: 0;
+    border: 2px solid #ffbbb3 ;
+}
+
+button::before, button::after, span::before, span::after {
+    display: block;
+    content: "";
+    width: 20px;
+    height: 20px;
+    position: absolute;
+}
+
+button::before {
+    top: -2px;
+    left: -2px;
+    border-top: 2px solid var(--color-primary);
+    border-left: 2px solid var(--color-primary);
+}
+button::after {
+    top: -2px;
+    right: -2px;
+    border-top: 2px solid var(--color-primary);
+    border-right: 2px solid var(--color-primary);
+}
+span::before {
+    bottom: -2px;
+    left: -2px;
+    border-bottom: 2px solid var(--color-primary);
+    border-left: 2px solid var(--color-primary);
+}
+span::after {
+    bottom: -2px;
+    right: -2px;
+    border-bottom: 2px solid var(--color-primary);
+    border-right: 2px solid var(--color-primary);
+}
+
+button:hover {
+  border: 2px solid var(--color-primary);
+
+}
+
+span{
   text-transform: uppercase;
-  letter-spacing: 1px;
-  box-shadow: 0 4px 12px rgba(255, 42, 0, 0.2);
-  transition: all 0.3s ease;
+  font-size: larger;
+  font-weight: bolder;
 }
-
-.book-form button:hover {
-  background-color: #e62200;
-  box-shadow: 0 6px 20px rgba(255, 42, 0, 0.35);
-  transform: translateY(-2px);
-}
-
-.book-form button:active {
-  transform: translateY(0);
-}
-
 .book-form p {
   color: #e74c3c;
   font-size: 14px;

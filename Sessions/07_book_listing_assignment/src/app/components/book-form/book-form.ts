@@ -20,7 +20,29 @@ export interface BookModel {
 export class BookForm {
 
 
-  public booksList  = signal<BookModel[]>([]);
+  public booksList  = signal<BookModel[]>([
+  {
+    id: 1,
+    title: "The Great Gatsby",
+    description: "A story of ambition and obsession in the Jazz Age.",
+    author: "F. Scott Fitzgerald",
+    price: 15.99
+  },
+  {
+    id: 2,
+    title: "1984",
+    description: "A dystopian novel about totalitarianism and surveillance.",
+    author: "George Orwell",
+    price: 12.50
+  },
+  {
+    id: 3,
+    title: "The Hobbit",
+    description: "A fantasy adventure following Bilbo Baggins on a quest.",
+    author: "J.R.R. Tolkien",
+    price: 20.00
+  }
+]);
   public bookForm : FormGroup ;
 
   constructor(){

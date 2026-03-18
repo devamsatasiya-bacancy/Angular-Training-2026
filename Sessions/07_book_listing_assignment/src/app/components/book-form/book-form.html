@@ -1,5 +1,6 @@
 <div class="book-form-section">
   <div class="book-form">
+    <h1>Book Listing Form</h1>
     <form [formGroup]="bookForm" (ngSubmit)="onSubmit()" >
       <div class="input">
         <label for="title">Title</label>
@@ -19,7 +20,7 @@
       </div>
       <!-- <input type="button" value="submit" > -->
 
-      <button type="submit">Submit</button>
+      <button type="submit"><span>Submit</span></button>
       @if (this.bookForm.controls['price'].hasError("min") ||this.bookForm.controls['price'].hasError("max") ) {
         <p>Please enter Price between 1 and 1000.</p>
       }
