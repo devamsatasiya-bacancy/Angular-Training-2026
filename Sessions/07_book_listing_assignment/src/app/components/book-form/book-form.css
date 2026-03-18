@@ -1,0 +1,86 @@
+.book-form-section {
+  margin-bottom: 60px;
+}
+
+.book-form {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-card);
+  padding: 40px;
+    }
+
+.book-form h2 {
+  font-size: 32px;
+  margin-bottom: 30px;
+  color: var(--color-text);
+}
+
+.book-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.input {
+  display: flex;
+  flex-direction: column;
+}
+
+.input label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+
+.input input {
+  padding: 12px 16px;
+  border: 2px solid #e0e0e0;
+  border-radius: var(--radius-card);
+  font-size: 15px;
+  background-color: #fafafa;
+}
+
+.input input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  background-color: var(--color-surface);
+}
+
+.book-form button {
+  background-color: var(--color-primary);
+  color: white;
+  padding: 14px 32px;
+  border: none;
+  border-radius: var(--radius-card);
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 12px rgba(255, 42, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+.book-form button:hover {
+  background-color: #e62200;
+  box-shadow: 0 6px 20px rgba(255, 42, 0, 0.35);
+  transform: translateY(-2px);
+}
+
+.book-form button:active {
+  transform: translateY(0);
+}
+
+.book-form p {
+  color: #e74c3c;
+  font-size: 14px;
+  font-weight: 600;
+  margin-top: -16px;
+  text-align: center;
+}
+
+.book-list {
+  margin-top: 30px;
+}

@@ -1,20 +1,20 @@
 <div class="book-form-section">
   <div class="book-form">
     <form [formGroup]="bookForm" (ngSubmit)="onSubmit()" >
-      <div class="title-input">
+      <div class="input">
         <label for="title">Title</label>
         <input type="text" name="title" id="title" formControlName="title" />
       </div>
-      <div class="title-input">
+      <div class="input">
         <label for="description">Description</label>
         <input type="text" name="description" id="description" formControlName="description" />
       </div>
-      <div class="author-input">
+      <div class="input">
         <label for="author">Author Name</label>
         <input type="text" name="author" id="author" formControlName="author" />
       </div>
-      <div class="author-input">
-        <label for="author">Price</label>
+      <div class="input">
+        <label for="price">Price</label>
         <input type="number" name="price" id="price" formControlName="price" />
       </div>
       <!-- <input type="button" value="submit" > -->
