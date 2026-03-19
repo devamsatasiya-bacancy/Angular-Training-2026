@@ -8,7 +8,7 @@ import { Book } from '../book.model';
   styleUrl: './book-card.scss',
 })
 export class BookCardComponent {
-  @Input() book: Book = { title: '', author: '', year: 0, description: '', image: '' };
+  @Input() book: Book = { title: '', author: '', price: 0, description: '', image: '' };
   @Input() index: number = 0;
   @Input() isEditing: boolean = false;
   @Output() editClicked = new EventEmitter<number>();

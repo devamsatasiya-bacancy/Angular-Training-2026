@@ -13,14 +13,14 @@ export class BookFormComponent implements OnChanges {
 
   title: string = '';
   author: string = '';
-  year: number | null = null;
+  price: number | null = null;
   description: string = '';
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['bookData'] && this.bookData) {
       this.title = this.bookData.title;
       this.author = this.bookData.author;
-      this.year = this.bookData.year;
+      this.price = this.bookData.price;
       this.description = this.bookData.description;
     }
   }
@@ -28,15 +28,15 @@ export class BookFormComponent implements OnChanges {
   clearForm() {
     this.title = '';
     this.author = '';
-    this.year = null;
+    this.price = null;
     this.description = '';
   }
 
-  getFormValue(): Omit<Book, 'image'> {
+  getFormValue(): Omit<Book, 'image'>  {
     return {
       title: this.title,
       author: this.author,
-      year: this.year ?? 0,
+      price: this.price ?? 0,
       description: this.description,
     };
   }

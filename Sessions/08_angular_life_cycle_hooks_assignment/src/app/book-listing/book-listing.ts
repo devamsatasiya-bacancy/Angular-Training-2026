@@ -16,9 +16,9 @@ export class BookListingComponent {
   @ViewChild('bookFormComponent') bookForm!: BookFormComponent;
 
   bookList: Book[] = [
-    { title: 'The Great Gatsby', author: 'F. Scott Fitzgerald', year: 1925, description: 'A novel set in the Jazz Age on Long Island.', image: DEFAULT_IMAGE },
-    { title: '1984', author: 'George Orwell', year: 1949, description: 'A dystopian social science fiction novel.', image: DEFAULT_IMAGE },
-    { title: 'To Kill a Mockingbird', author: 'Harper Lee', year: 1960, description: 'A novel about racial injustice and moral growth in the American South.', image: DEFAULT_IMAGE },
+    { title: 'The Great Gatsby', author: 'F. Scott Fitzgerald', price: 1925, description: 'A novel set in the Jazz Age on Long Island.', image: DEFAULT_IMAGE },
+    { title: '1984', author: 'George Orwell', price: 1949, description: 'A dystopian social science fiction novel.', image: DEFAULT_IMAGE },
+    { title: 'To Kill a Mockingbird', author: 'Harper Lee', price: 1960, description: 'A novel about racial injustice and moral growth in the American South.', image: DEFAULT_IMAGE },
   ];
 
   currentBookIndex = signal<number | null>(null);
