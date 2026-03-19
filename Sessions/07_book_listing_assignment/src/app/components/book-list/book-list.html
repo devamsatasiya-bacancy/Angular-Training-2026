@@ -1,7 +1,9 @@
 <div class="book-list">
     @if (bookListData()) {
         @for (item of bookListData(); track $index) {
-            <app-book [bookData]="item" (notify)="handleNotification($event)"></app-book>
-        }
+            <app-book [bookData]="item" (notify)="handleNotification($event)">
+                <app-look [title]="'hello'"></app-look>
+            </app-book>
+        }   
     }
 </div>

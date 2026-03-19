@@ -5,4 +5,5 @@
     <p class="book-price">Price: {{bookData()?.price}}</p>
     <p class="book-author">Author: {{bookData()?.author}}</p>
     <button (click)="sendNotification()">Notify</button>
+    <ng-content></ng-content>
 </div>

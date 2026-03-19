@@ -1,5 +1,14 @@
-import { Component, Input, input, output } from '@angular/core';
+import {
+  AfterContentInit,
+  Component,
+  ContentChild,
+  Input,
+  input,
+  Output,
+  output,
+} from '@angular/core';
 import { BookModel } from '../book-form/book-form';
+import { Look } from '../book copy/book';
 
 @Component({
   selector: 'app-book',
@@ -7,14 +16,15 @@ import { BookModel } from '../book-form/book-form';
   templateUrl: './book.html',
   styleUrl: './book.css',
 })
-export class Book {
- 
+export class Book implements AfterContentInit {
   bookData = input<BookModel>();
   notify = output<string>();
+  @ContentChild(Look) parachild!: Look;
 
-
-  sendNotification(){
-    
+  ngAfterContentInit(): void {
+    console.log(this.parachild.title());
+  }
+  sendNotification() {
     let title = this.bookData()?.title;
     if (title) {
       this.notify.emit(title);
