@@ -1,0 +1,28 @@
+.book-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+
+  &__input {
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    color: var(--color-text);
+    background: var(--color-background);
+    border: 2px solid #e2e8f0;
+    border-radius: var(--radius-card);
+    padding: 0.6rem 0.9rem;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+
+    &::placeholder {
+      color: var(--color-muted);
+    }
+
+    &:focus {
+      border-color: var(--color-primary);
+    }
+
+  }
+}

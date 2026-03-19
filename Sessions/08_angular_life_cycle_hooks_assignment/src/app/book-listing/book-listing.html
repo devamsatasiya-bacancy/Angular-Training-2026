@@ -1,0 +1,33 @@
+<div class="listing-page">
+
+  <app-toast [message]="toastMessage()" />
+
+  <div class="listing-header">
+    <h2>Book List</h2>
+    @if (!isFormOpen()) {
+      <button class="btn btn-primary" (click)="onAddBook()">+ Add Book</button>
+    }
+  </div>
+  @if (isFormOpen()) {
+    <div class="form-section">
+      <h3>{{ currentBookIndex() !== null ? 'Edit Book' : 'Add Book' }}</h3>
+      <app-book-form  [bookData]="selectedBook()" #bookFormComponent></app-book-form>
+      <button class="btn btn-primary" (click)="onSave()">Save</button>
+    </div>
+  }
+
+  <div class="book-grid">
+    @for (book of bookList; track book.title; let i = $index) {
+      <app-book-card
+        [book]="book"
+        [index]="i"
+        [isEditing]="currentBookIndex() === i"
+        (editClicked)="onEditBook($event)"
+        (deleteClicked)="onDeleteBook($event)"
+      />
+    }
+  </div>
+
+
+
+</div>

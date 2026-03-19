@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600;700&display=swap');
+
+:root {
+  --color-primary: #FF2A00;
+  --color-background: #FAFAFA;
+  --color-surface: #FFFFFF;
+  --color-text: #0B0F19;
+  --color-muted: #94A3B8;
+  --color-accent: #FF8A00;
+  --font-heading: 'Bebas Neue', sans-serif;
+  --font-body: 'Manrope', sans-serif;
+  --radius-pill: 9999px;
+  --radius-card: 0px;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-background);
+  color: var(--color-text);
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-heading);
+  letter-spacing: 0.04em;
+}

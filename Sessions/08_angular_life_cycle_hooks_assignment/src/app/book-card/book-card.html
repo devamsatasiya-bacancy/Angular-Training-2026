@@ -1,0 +1,27 @@
+<div class="book-card" [class.book-card--editing]="isEditing">
+
+  <img class="book-card__image" [src]="book.image" [alt]="book.title" />
+
+  <div class="book-card__body">
+    <h3 class="book-card__title">{{ book.title }}</h3>
+    <p class="book-card__author">{{ book.author }}</p>
+    <p class="book-card__year">{{ book.year }}</p>
+  </div>
+
+  <div class="book-card__actions">
+    @if (!isEditing) {
+      <button class="btn btn-outline" (click)="onEdit()">Edit</button>
+    }
+    <button class="btn btn-danger" (click)="onDelete()">Delete</button>
+    <button class="btn btn-ghost" (click)="toggleMore()">
+      {{ showMore() ? 'View Less' : 'View More' }}
+    </button>
+  </div>
+
+  @if (showMore()) {
+    <div class="book-card__more">
+      <p>{{ book.description }}</p>
+    </div>
+  }
+
+</div>
