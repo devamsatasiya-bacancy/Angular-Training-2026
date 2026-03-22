@@ -1,1 +1,11 @@
-<p>social-media-post works!</p>
+<div class="social-media-post">
+    @if (postData) {
+        <img [src]="postData.imageUrl" alt="Post Image" class="post-image">
+        <h2 >{{ postData.title }}</h2>
+        <p>{{ postData.content }}</p>
+        <div class="post-interactions">
+            <span>Likes: {{ postData.likes }}</span>
+            <span>Comments: {{ postData.comments }}</span>
+        </div>
+    }
+</div>

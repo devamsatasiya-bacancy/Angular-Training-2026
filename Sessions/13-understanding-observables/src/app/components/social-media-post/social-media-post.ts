@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { SMPostModel } from '../../models/SMPostModel';
 
 @Component({
   selector: 'app-social-media-post',
@@ -6,4 +7,7 @@ import { Component } from '@angular/core';
   templateUrl: './social-media-post.html',
   styleUrl: './social-media-post.scss',
 })
-export class SocialMediaPost {}
+export class SocialMediaPost {
+
+  @Input() postData: SMPostModel | undefined;
+}

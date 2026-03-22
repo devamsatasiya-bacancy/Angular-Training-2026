@@ -1,7 +1,7 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { SocialMediaPost } from '../social-media-post/social-media-post';
 import { SMPostModel } from '../../models/SMPostModel';
-import { Observable } from 'rxjs';
+import { concatMap,of ,from, Observable, delay, tap } from 'rxjs';
 
 @Component({
   selector: 'app-social-media-feed',
@@ -10,6 +10,9 @@ import { Observable } from 'rxjs';
   styleUrl: './social-media-feed.scss',
 })
 export class SocialMediaFeed implements OnInit {
+stopRefreshing() {
+  this.isFeedRereshing.set(false);
+}
   socialMediaPostsData: SMPostModel[] = [
     {
       id: 1,
@@ -67,34 +70,35 @@ export class SocialMediaFeed implements OnInit {
 
   i = 0;
   socialMediaPosts$ = new Observable<SMPostModel>((subscriber) => {
-    for (let smpost of this.socialMediaPostsData)  {
-      console.log(this.i)
+    for (let smpost of this.socialMediaPostsData) {
+      this.i = this.i + 1;
+      console.log(this.i);
 
-      
       if (!this.isFeedRereshing()) {
         subscriber.complete();
-      }
-      
-      else {
-
-        this.i = this.i+1
+      } else {
         setTimeout(() => {
-
-         subscriber.next(smpost);
-        },(2000*(this.i)));
-       
+          subscriber.next(smpost);
+        }, 2000 * this.i);
       }
     }
-
-
   });
- sleep = (ms:number) => new Promise(resolve => setTimeout(resolve, ms));
 
+  
+  // socialMediaPosts$ = from(this.socialMediaPostsData).pipe(concatMap((post) => {
+
+  //   if (!this.isFeedRereshing()) {
+  //     return of().pipe(tap(() => console.log("Feed refreshing stopped. No more posts will be emitted.")));
+  //   }
+  //   return of(console.log(post)).pipe(delay(2000) , tap( val => console.log("Emitted value: ", val)
+  // ));
+  // }));
   ngOnInit(): void {
     this.socialMediaPosts$.subscribe({
-      next:  (data) => {
-
-        console.log(data)
+      next: (data) => {
+        if(data !== undefined){
+          this.socialMediaPosts.update((posts) => {return [...posts , data]});  
+        }
       },
       error: (e) => {
         console.error(e);

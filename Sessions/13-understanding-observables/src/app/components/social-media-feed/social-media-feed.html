@@ -1,1 +1,7 @@
-<p>social-media-feed works!</p>
+<div class="social-media-feed">
+    @for (smpost of socialMediaPosts(); track $index) {
+        
+        <app-social-media-post [postData]="smpost"></app-social-media-post>
+    }
+    <button (click)="stopRefreshing()">Stop Refreshing</button>
+</div>
