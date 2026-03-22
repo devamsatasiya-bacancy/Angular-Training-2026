@@ -1,0 +1,12 @@
+<div class="product-listing">
+    @for (product of productsList; track $index ; let i = $index) {
+        <app-product-card (productAdded)="addtoCard($event)" appHoverScale [product]="product" [index] = "i" ></app-product-card>
+    }
+
+    @if(productsCart().length > 0){
+        <app-products-cart  [productsCart]="productsCart()" ></app-products-cart>
+    }
+    @else{
+        <p>Add Some Products to Cart</p>
+    }
+</div>

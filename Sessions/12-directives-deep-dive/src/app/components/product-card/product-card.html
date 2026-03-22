@@ -1,0 +1,19 @@
+<div class="product-card" [appStatusBorder]="product?.stock === 0 ? 'red' : 'green'"  [appHighlightDiscount]="product?.discount ? 'yellow' : 'transparent'" >
+    <p>{{product?.name}}</p>
+    <p>{{product?.description}}</p>
+    <p>Stock Number:{{product?.stock}}</p>
+    <p >
+        $ @if (product?.discount){
+            <span class="discount-price">{{getDiscountedPrice()}}</span>
+        }
+        <span [ngClass]="product?.discount ? 'original-price' : ''">{{product?.price}}</span>
+
+    </p>
+    <ng-template [appCustomIf]="product!.stock>0">
+        <p>Available</p>
+    </ng-template>
+    <p>
+        <span *appCustomFor="let review of getReviews()">{{review}}</span>
+    </p>
+    <button (click)="sendCardIndex()" appDisableBtn > {{addcartProcessing() ? "Loading.." : "🛒Add to Cart"}}</button>
+</div> 
