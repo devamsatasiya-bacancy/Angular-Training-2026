@@ -4,5 +4,5 @@ export interface SMPostModel {
   content:string;
   likes: number;
   comments: number;
-  imageUrl: string;
+  imageUrl?: string;
 }

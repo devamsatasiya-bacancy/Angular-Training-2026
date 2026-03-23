@@ -1,6 +1,8 @@
 <div class="social-media-post">
     @if (postData) {
-        <img [src]="postData.imageUrl" alt="Post Image" class="post-image">
+        @if (postData.imageUrl) {
+            <img [src]="postData.imageUrl" alt="Post Image" class="post-image">
+        }
         <h2 >{{ postData.title }}</h2>
         <p>{{ postData.content }}</p>
         <div class="post-interactions">

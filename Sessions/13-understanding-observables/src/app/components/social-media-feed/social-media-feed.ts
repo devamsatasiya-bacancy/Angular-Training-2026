@@ -1,7 +1,7 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { SocialMediaPost } from '../social-media-post/social-media-post';
 import { SMPostModel } from '../../models/SMPostModel';
-import { concatMap,of ,from, Observable, delay, tap } from 'rxjs';
+import { concatMap, of, from, Observable, delay, tap, Subscriber, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-social-media-feed',
@@ -9,127 +9,90 @@ import { concatMap,of ,from, Observable, delay, tap } from 'rxjs';
   templateUrl: './social-media-feed.html',
   styleUrl: './social-media-feed.scss',
 })
-export class SocialMediaFeed implements OnInit {
-
-
-updatePostLikes(id: number) {
-  this.socialMediaPosts.update((posts) => {
-    return posts.map((post) => {
-      if (post.id === id) {
-        return { ...post, likes: post.likes + 1 };
-      }
-      return post;
+export class SocialMediaFeed {
+  subsriber1: Subscription | undefined;
+  updatePostLikes(id: number) {
+    this.socialMediaPosts.update((posts) => {
+      return posts.map((post) => {
+        if (post.id === id) {
+          return { ...post, likes: post.likes + 1 };
+        }
+        return post;
+      });
     });
-  });
-}
+  }
 
-getTotalLikes(): number {
-  return this.socialMediaPosts().reduce((total, post) => total + post.likes, 0);
-}
-stopRefreshing() {
-  this.isFeedRereshing.set(false);
-}
-  socialMediaPostsData: SMPostModel[] = [
-    {
-      id: 1,
-      title: 'First Post',
-      content: 'This is the content of the first post.',
-      likes: 10,
-      comments: 2,
-      imageUrl: 'https://via.placeholder.com/150',
-    },
-    {
-      id: 2,
-      title: 'Second Post',
-      content: 'This is the content of the second post.',
-      likes: 20,
-      comments: 5,
-      imageUrl: 'https://via.placeholder.com/150',
-    },
-    {
-      id: 3,
-      title: 'Third Post',
-      content: 'This is the content of the third post.',
-      likes: 30,
-      comments: 8,
-      imageUrl: 'https://via.placeholder.com/150',
-    },
-    {
-      id: 4,
-      title: 'Fourth Post',
-      content: 'This is the content of the fourth post.',
-      likes: 40,
-      comments: 10,
-      imageUrl: 'https://via.placeholder.com/150',
-    },
-    {
-      id: 5,
-      title: 'Fifth Post',
-      content: 'This is the content of the fifth post.',
-      likes: 50,
-      comments: 12,
-      imageUrl: 'https://via.placeholder.com/150',
-    },
-    {
-      id: 6,
-      title: 'Sixth Post',
-      content: 'This is the content of the sixth post.',
-      likes: 60,
-      comments: 15,
-      imageUrl: 'https://via.placeholder.com/150',
-    },
-  ];
+  getTotalLikes(): number {
+    return this.socialMediaPosts().reduce((total, post) => total + post.likes, 0);
+  }
 
+  toastMessage = signal<string>('');
   socialMediaPosts = signal<SMPostModel[]>([]);
 
-  isFeedRereshing = signal<boolean>(true);
+  isFeedRereshing = signal<boolean>(false);
 
-  i = 0;
+  i = 1;
   socialMediaPosts$ = new Observable<SMPostModel>((subscriber) => {
-
     const intervalId = setInterval(() => {
       if (!this.isFeedRereshing()) {
-        subscriber.complete();
-        console.log("Feed refreshing stopped. No more posts will be emitted.");
+        //subscriber.complete();
+        console.log('Feed refreshing stopped. No posts will be emitted now.');
         clearInterval(intervalId);
         return;
-      }
-      if (this.i < this.socialMediaPostsData.length) {
-        const post = this.socialMediaPostsData[this.i];
-        subscriber.next(post);
-        console.log("Emitted value: ", post);
-        this.i++;
       } else {
-        subscriber.complete();
-        console.log("All posts have been emitted. Observable completed.");
-        clearInterval(intervalId);
+        const post: SMPostModel = {
+          id: this.i,
+          content: `This is post number ${this.i} ${new Date().toLocaleTimeString()}`,
+          likes: this.i,
+          comments: this.i *2,
+          title: `Post Title ${this.i}`,
+        };
+        subscriber.next(post);
+        console.log('Emitted value: ', post);
+        this.i++;
       }
-    }, 2000); 
-
+    }, 2000);
   });
 
-  
-  // socialMediaPosts$ = from(this.socialMediaPostsData).pipe(concatMap((post) => {
+  /* this method starts subscribing to the observable type SMPostModel */
+  startSubscribing(observer: Observable<SMPostModel>): Subscription {
+    return observer.subscribe({
+        next: (data) => {
+          if (data !== undefined) {
+            this.socialMediaPosts.update((posts) => {
+              return [data,...posts, ];
+            });
+          }
+        },
+        error: (e) => {
+          console.error(e);
+        },
+        complete: () => console.info('complete'),
+      });
+  }
+  toggleRefreshing() {
+    console.log('TOGGLE TRIGGERED');
+    if (!this.isFeedRereshing()) {
+      this.isFeedRereshing.set(true);
+      this.toastMessage.set('Feed refreshing started. New posts will be emitted every 2 seconds.');
+      this.subsriber1 = this.startSubscribing(this.socialMediaPosts$);
 
-  //   if (!this.isFeedRereshing()) {
-  //     return of().pipe(tap(() => console.log("Feed refreshing stopped. No more posts will be emitted.")));
-  //   }
-  //   return of(console.log(post)).pipe(delay(2000) , tap( val => console.log("Emitted value: ", val)
-  // ));
-  // }));
+    } else {
 
+      this.isFeedRereshing.set(false);
+      this.toastMessage.set('Feed refreshing stopped. No more posts will be emitted.');
+      if (this.subsriber1) {
+        this.subsriber1.unsubscribe();
+      }
+    }
 
-  ngOnInit(): void {
-    this.socialMediaPosts$.subscribe({
-      next: (data) => {
-        if(data !== undefined){
-          this.socialMediaPosts.update((posts) => {return [...posts , data]});  
-        }
-      },
-      error: (e) => {
-        console.error(e);
-      },
-      complete: () => console.info('complete'),
-    });
+    // socialMediaPosts$ = from(this.socialMediaPostsData).pipe(concatMap((post) => {
+
+    //   if (!this.isFeedRereshing()) {
+    //     return of().pipe(tap(() => console.log("Feed refreshing stopped. No more posts will be emitted.")));
+    //   }
+    //   return of(console.log(post)).pipe(delay(2000) , tap( val => console.log("Emitted value: ", val)
+    // ));
+    // }));
   }
 }

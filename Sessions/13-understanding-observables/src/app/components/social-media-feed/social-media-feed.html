@@ -1,5 +1,13 @@
 <div class="social-media-feed">
-    <button (click)="stopRefreshing()">Stop Refreshing</button>
+
+    <div class="toggle-feed">
+
+        <button (click)="toggleRefreshing()"> 
+            {{ isFeedRereshing() ? 'Stop Refreshing' : 'Start Refreshing' }}
+        </button>
+        <p>{{ toastMessage() }}</p>
+    </div>
+
     <p>Total Likes: {{ getTotalLikes() }}</p>
     @for (smpost of socialMediaPosts(); track $index) {
         
