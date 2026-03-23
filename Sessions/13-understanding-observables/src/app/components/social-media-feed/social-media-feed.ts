@@ -10,6 +10,22 @@ import { concatMap,of ,from, Observable, delay, tap } from 'rxjs';
   styleUrl: './social-media-feed.scss',
 })
 export class SocialMediaFeed implements OnInit {
+
+
+updatePostLikes(id: number) {
+  this.socialMediaPosts.update((posts) => {
+    return posts.map((post) => {
+      if (post.id === id) {
+        return { ...post, likes: post.likes + 1 };
+      }
+      return post;
+    });
+  });
+}
+
+getTotalLikes(): number {
+  return this.socialMediaPosts().reduce((total, post) => total + post.likes, 0);
+}
 stopRefreshing() {
   this.isFeedRereshing.set(false);
 }
@@ -70,18 +86,26 @@ stopRefreshing() {
 
   i = 0;
   socialMediaPosts$ = new Observable<SMPostModel>((subscriber) => {
-    for (let smpost of this.socialMediaPostsData) {
-      this.i = this.i + 1;
-      console.log(this.i);
 
+    const intervalId = setInterval(() => {
       if (!this.isFeedRereshing()) {
         subscriber.complete();
-      } else {
-        setTimeout(() => {
-          subscriber.next(smpost);
-        }, 2000 * this.i);
+        console.log("Feed refreshing stopped. No more posts will be emitted.");
+        clearInterval(intervalId);
+        return;
       }
-    }
+      if (this.i < this.socialMediaPostsData.length) {
+        const post = this.socialMediaPostsData[this.i];
+        subscriber.next(post);
+        console.log("Emitted value: ", post);
+        this.i++;
+      } else {
+        subscriber.complete();
+        console.log("All posts have been emitted. Observable completed.");
+        clearInterval(intervalId);
+      }
+    }, 2000); 
+
   });
 
   
@@ -93,6 +117,8 @@ stopRefreshing() {
   //   return of(console.log(post)).pipe(delay(2000) , tap( val => console.log("Emitted value: ", val)
   // ));
   // }));
+
+
   ngOnInit(): void {
     this.socialMediaPosts$.subscribe({
       next: (data) => {

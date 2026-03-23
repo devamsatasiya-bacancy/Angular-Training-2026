@@ -1,7 +1,8 @@
 <div class="social-media-feed">
+    <button (click)="stopRefreshing()">Stop Refreshing</button>
+    <p>Total Likes: {{ getTotalLikes() }}</p>
     @for (smpost of socialMediaPosts(); track $index) {
         
-        <app-social-media-post [postData]="smpost"></app-social-media-post>
+        <app-social-media-post (postLiked)="updatePostLikes($event)" [postData]="smpost"></app-social-media-post>
     }
-    <button (click)="stopRefreshing()">Stop Refreshing</button>
 </div>

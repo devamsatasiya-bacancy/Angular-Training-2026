@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SMPostModel } from '../../models/SMPostModel';
 
 @Component({
@@ -10,4 +10,13 @@ import { SMPostModel } from '../../models/SMPostModel';
 export class SocialMediaPost {
 
   @Input() postData: SMPostModel | undefined;
+  @Output() postLiked = new EventEmitter<number>();
+
+  likePost() {
+    if (this.postData) {
+      this.postLiked.emit(this.postData.id);
+    } else {
+      console.error('Post data is undefined');
+    } 
+  }
 }
