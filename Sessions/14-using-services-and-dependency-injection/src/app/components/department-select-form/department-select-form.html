@@ -1,0 +1,25 @@
+<div class="dep-select-form">
+  <h2>Department Select Form</h2>
+  <form (ngSubmit)="onSubmit()">
+    <label for="department">Enter Department:</label>
+    <input
+      type="text"
+      id="department"
+      [(ngModel)]="selectedDepartment"
+      name="department"
+      required
+    />
+    <button type="submit">Submit</button>
+  </form>
+
+  <h3>Current Departments</h3>
+  <ul>
+    @if (allDepartments().length > 0) {
+      @for (dept of allDepartments(); track $index) {
+        <li>{{ dept.name }}</li>
+      }
+    } @else {
+      <li>No departments available.</li>
+    }
+  </ul>
+</div>
