@@ -1,13 +1,13 @@
 import { Component, OnInit, signal } from '@angular/core';
 import { SocialMediaPost } from '../social-media-post/social-media-post';
 import { SMPostModel } from '../../models/SMPostModel';
-import { concatMap, of, from, Observable, delay, tap, Subscriber, Subscription } from 'rxjs';
+import { concatMap, of, from, Observable, delay, tap, Subscriber, Subscription, map } from 'rxjs';
 
 @Component({
   selector: 'app-social-media-feed',
   imports: [SocialMediaPost],
   templateUrl: './social-media-feed.html',
-  styleUrl: './social-media-feed.scss',
+  styleUrl: './social-media-feed.scss'
 })
 export class SocialMediaFeed {
   subsriber1: Subscription | undefined;
@@ -32,7 +32,7 @@ export class SocialMediaFeed {
   isFeedRereshing = signal<boolean>(false);
 
   i = 1;
-  socialMediaPosts$ = new Observable<SMPostModel>((subscriber) => {
+  socialMediaPostsObs$ = new Observable<SMPostModel>((subscriber) => {
     const intervalId = setInterval(() => {
       if (!this.isFeedRereshing()) {
         //subscriber.complete();
@@ -75,7 +75,7 @@ export class SocialMediaFeed {
     if (!this.isFeedRereshing()) {
       this.isFeedRereshing.set(true);
       this.toastMessage.set('Feed refreshing started. New posts will be emitted every 2 seconds.');
-      this.subsriber1 = this.startSubscribing(this.socialMediaPosts$);
+      this.subsriber1 = this.startSubscribing(this.socialMediaPostsObs$);
 
     } else {
 
@@ -86,12 +86,12 @@ export class SocialMediaFeed {
       }
     }
 
-    // socialMediaPosts$ = from(this.socialMediaPostsData).pipe(concatMap((post) => {
+    // socialMediaPosts$ = from(this.socialMediaPostsData).pipe(map((post) => {
 
     //   if (!this.isFeedRereshing()) {
     //     return of().pipe(tap(() => console.log("Feed refreshing stopped. No more posts will be emitted.")));
     //   }
-    //   return of(console.log(post)).pipe(delay(2000) , tap( val => console.log("Emitted value: ", val)
+    //   return of(post).pipe(delay(2000) , tap( val => console.log("Emitted value: ", val)
     // ));
     // }));
   }
