@@ -1,0 +1,33 @@
+<section class="pageSection jobsSection">
+  <div class="jobsHero surfaceCard">
+    <div class="jobsHeroCopy">
+      <h1 class="pageTitle">Choose a role and jump into the details.</h1>
+      <p class="pageLead">
+        The jobs are supplied by a dedicated service so the list and detail screens stay nicely
+        separated.
+      </p>
+    </div>
+
+  </div>
+
+  <div class="jobGrid">
+    @for (job of jobs(); track job.id) {
+      <article class="surfaceCard jobCard">
+        <p class="jobMeta">{{ job.company }} • {{ job.location }}</p>
+        <h2>{{ job.title }}</h2>
+        <p class="jobSummary">{{ job.summary }}</p>
+
+        <div class="tagRow">
+          @for (tag of job.tags; track tag) {
+            <span class="tag">{{ tag }}</span>
+          }
+        </div>
+
+        <div class="jobFooter">
+          <span class="salaryChip">{{ job.salary }}</span>
+          <button type="button" class="buttonPrimary" (click)="openJob(job.id)">View job</button>
+        </div>
+      </article>
+    }
+  </div>
+</section>

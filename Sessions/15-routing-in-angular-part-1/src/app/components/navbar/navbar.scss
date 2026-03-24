@@ -1,0 +1,64 @@
+.navbarWrap {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  padding: 1rem;
+  backdrop-filter: blur(8px);
+}
+
+.navbar {
+  width: min(1120px, 100%);
+  margin: 0 auto;
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.brandMark {
+  display: grid;
+  place-items: center;
+  width: 2.8rem;
+  aspect-ratio: 1;
+  background: var(--color-primary);
+  border: 2px solid var(--color-text);
+  border-radius: 50%;
+  color: #fff;
+  font-weight: 800;
+}
+
+.brandText {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.navLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.navLink {
+  padding: 0.7rem 1rem;
+  border: 2px solid transparent;
+  font-weight: 800;
+}
+
+.navLinkActive {
+  border-color: var(--color-text);
+  background: #48484874;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

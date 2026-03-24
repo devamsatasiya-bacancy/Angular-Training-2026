@@ -1,0 +1,23 @@
+.contactSection {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.contactIntro {
+  display: grid;
+  gap: 1rem;
+}
+
+.successBanner {
+  padding: 1rem 1.1rem;
+  background: #fff5e8;
+  font-weight: 800;
+}
+
+@media (max-width: 900px) {
+  .contactSection {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,7 @@
+<div class="toastStack" aria-live="polite" aria-atomic="true">
+  @for (message of toastService.messages(); track message.id) {
+    <div class="toast surfaceCard">
+      {{ message.text }}
+    </div>
+  }
+</div>

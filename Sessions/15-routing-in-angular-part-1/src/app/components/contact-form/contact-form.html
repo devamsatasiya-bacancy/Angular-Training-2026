@@ -1,0 +1,32 @@
+<form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contactForm surfaceCard">
+  <div class="fieldGroup">
+    <label class="fieldLabel" for="fullName">Full name</label>
+    <input id="fullName" type="text" class="textField" formControlName="fullName" />
+    @if (showError('fullName')) {
+      <p class="fieldError">Please enter at least 2 characters for your name.</p>
+    }
+  </div>
+
+  <div class="fieldGroup">
+    <label class="fieldLabel" for="email">Email</label>
+    <input id="email" type="email" class="textField" formControlName="email" />
+    @if (showError('email')) {
+      <p class="fieldError">Please enter a valid email address.</p>
+    }
+  </div>
+
+  <div class="fieldGroup">
+    <label class="fieldLabel" for="message">Message</label>
+    <textarea
+      id="message"
+      rows="6"
+      class="textAreaField"
+      formControlName="message"
+    ></textarea>
+    @if (showError('message')) {
+      <p class="fieldError">Please write a message with at least 10 characters.</p>
+    }
+  </div>
+
+  <button type="submit" class="buttonPrimary">Send and view contact page</button>
+</form>

@@ -1,0 +1,13 @@
+<section class="pageSection contactSection">
+  <div class="contactIntro">
+    <h1 class="pageTitle">Tell us what role or team you are building for.</h1>
+
+    @if (submittedMessage()) {
+      <div class="surfaceCard successBanner" role="status">
+        {{ submittedMessage() }}
+      </div>
+    }
+  </div>
+
+  <app-contact-form  />
+</section>

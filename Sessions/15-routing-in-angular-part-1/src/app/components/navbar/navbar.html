@@ -1,0 +1,20 @@
+<header class="navbarWrap">
+  <div class="navbar surfaceCard">
+    <a routerLink="/home" class="brand" aria-label="JobSprint home">
+      <span class="brandMark">JS</span>
+      <span class="brandText">JobSprint</span>
+    </a>
+
+    <nav class="navLinks" aria-label="Primary navigation">
+      @for (link of navLinks; track link.path) {
+        <a
+          [routerLink]="link.path"
+          routerLinkActive="navLinkActive"
+          class="navLink"
+        >
+          {{ link.label }}
+        </a>
+      }
+    </nav>
+  </div>
+</header>

@@ -1,0 +1,92 @@
+.jobsSection {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.jobsHero {
+  padding: 1.5rem;
+  display: grid;
+  grid-template-columns: 1.3fr 0.8fr;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.jobsHeroCopy {
+  display: grid;
+  gap: 1rem;
+}
+
+.featuredPanel {
+  padding: 1.2rem;
+  border: 2px solid var(--color-text);
+  background: linear-gradient(135deg, #fff7f2, #ffe1d6);
+}
+
+.featuredPanel h2 {
+  margin: 0.25rem 0 0.5rem;
+  font-size: 2rem;
+}
+
+.featuredLabel,
+.jobMeta {
+  margin: 0;
+  color: var(--color-muted);
+  font-size: 0.9rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.jobGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.jobCard {
+  padding: 1.25rem;
+}
+
+.jobCard h2 {
+  margin: 0.5rem 0 0.75rem;
+  font-size: 1.65rem;
+}
+
+.jobSummary {
+  margin: 0;
+  line-height: 1.7;
+}
+
+.tagRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 1rem 0 1.25rem;
+}
+
+.tag {
+  padding: 0.45rem 0.75rem;
+  border: 2px solid var(--color-text);
+  background: #fff5f0;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.jobFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.salaryChip {
+  font-family: var(--font-heading);
+  font-size: 2rem;
+  line-height: 1;
+}
+
+@media (max-width: 1000px) {
+  .jobGrid,
+  .jobsHero {
+    grid-template-columns: 1fr;
+  }
+}

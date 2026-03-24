@@ -1,0 +1,48 @@
+<section class="pageSection">
+  @if (job(); as selectedJob) {
+    <div class="detailLayout">
+      <div class="detailHeader">
+        <h1 class="pageTitle">{{ selectedJob.title }}</h1>
+        <p class="pageLead">{{ selectedJob.description }}</p>
+      </div>
+
+      <article class="surfaceCard detailCard">
+        <div class="metaGrid">
+          <div>
+            <p class="metaLabel">Company</p>
+            <p class="metaValue">{{ selectedJob.company }}</p>
+          </div>
+          <div>
+            <p class="metaLabel">Location</p>
+            <p class="metaValue">{{ selectedJob.location }}</p>
+          </div>
+          <div>
+            <p class="metaLabel">Type</p>
+            <p class="metaValue">{{ selectedJob.type }}</p>
+          </div>
+          <div>
+            <p class="metaLabel">Salary</p>
+            <p class="metaValue">{{ selectedJob.salary }}</p>
+          </div>
+        </div>
+
+        <div class="tagRow">
+          @for (tag of selectedJob.tags; track $index) {
+            <span class="tag">{{ tag }}</span>
+          }
+        </div>
+
+        <div class="buttonRow">
+          <button type="button" class="buttonSecondary" (click)="goBack()">Back to jobs</button>
+          <button type="button" class="buttonPrimary">Apply now</button>
+        </div>
+      </article>
+    </div>
+  } @else {
+    <div class="surfaceCard missingCard">
+      <h1 class="sectionTitle">Job not found</h1>
+      <p class="pageLead">The role you are looking for is not available right now.</p>
+      <a routerLink="/jobs" class="linkButton">Browse all jobs</a>
+    </div>
+  }
+</section>

@@ -1,0 +1,25 @@
+.aboutSection {
+  display: grid;
+  gap: 1rem;
+}
+
+.aboutGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.aboutCard {
+  padding: 1.5rem;
+}
+
+.aboutCard p {
+  margin: 0.75rem 0 0;
+  line-height: 1.7;
+}
+
+@media (max-width: 900px) {
+  .aboutGrid {
+    grid-template-columns: 1fr;
+  }
+}
