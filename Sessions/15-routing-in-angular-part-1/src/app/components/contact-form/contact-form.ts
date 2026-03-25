@@ -1,5 +1,5 @@
-import { Component, inject, output, signal } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {Component, signal } from '@angular/core';
+import { FormGroup , FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
 export interface ContactFormValue {
   fullName: string;
@@ -15,7 +15,6 @@ export interface ContactFormValue {
 })
 export class ContactFormComponent {
 
-  protected readonly hasTriedSubmit = signal(false);
 
   protected readonly contactForm  = new FormGroup({
     fullName: new FormControl('', [Validators.required, Validators.minLength(2)]),
@@ -24,23 +23,17 @@ export class ContactFormComponent {
   });
 
   protected onSubmit(): void {
-    this.hasTriedSubmit.set(true);
 
     if (this.contactForm.invalid) {
       this.contactForm.markAllAsTouched();
       return;
     }
 
-    this.contactForm.reset({
-      fullName: '',
-      email: '',
-      message: '',
-    });
-    this.hasTriedSubmit.set(false);
+    this.contactForm.reset();
   }
 
   protected showError(controlName: 'fullName' | 'email' | 'message'): boolean {
     const control = this.contactForm.controls[controlName];
-    return control.invalid && (control.touched || this.hasTriedSubmit());
+    return control.invalid && (control.touched);
   }
 }
