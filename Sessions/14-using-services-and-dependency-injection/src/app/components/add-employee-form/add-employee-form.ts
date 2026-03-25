@@ -1,26 +1,30 @@
-import { Component, inject, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { DepartmentModel } from '../../models/department.model';
 import { DepartmentService } from '../../services/department-service';
-import { DepartmentEmployeesModel } from '../../models/EmployeeModel';
-import { EmployeeService } from '../../services/employee-service';
+import { DepartmentEmployeeCard } from '../department-employee-card/department-employee-card';
 
 @Component({
   selector: 'app-add-employee-form',
-  imports: [FormsModule],
+  imports: [DepartmentEmployeeCard],
   templateUrl: './add-employee-form.html',
   styleUrl: './add-employee-form.scss',
 })
-export class AddEmployeeForm {
-    dptService = inject(DepartmentService);
-    empService = inject(EmployeeService);
-    employeeName: string = '';
-    allDepartmentsList = signal<DepartmentEmployeesModel[]>(this.dptService.getDepartments());
-    
-  onSubmit(deptId: number ) {
+export class AddEmployeeForm implements OnInit, OnDestroy {
+  private readonly dptService = inject(DepartmentService);
+  private departmentsSubscription?: Subscription;
 
-    this.empService.addEmployeeToDepartment(deptId, this.employeeName);
-    // console.log(deptId)
-    // console.log(this.employeeName);
+  protected allDepartmentsList: DepartmentModel[] = [];
+
+  ngOnInit() {
+    this.departmentsSubscription = this.dptService.departments$.subscribe(
+      (departments) => {
+        this.allDepartmentsList = departments;
+      },
+    );
   }
 
+  ngOnDestroy() {
+    this.departmentsSubscription?.unsubscribe();
+  }
 }

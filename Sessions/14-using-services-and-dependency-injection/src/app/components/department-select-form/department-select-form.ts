@@ -1,6 +1,7 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { EmployeeService } from '../../services/employee-service';
+import { Subscription } from 'rxjs';
+import { DepartmentModel } from '../../models/department.model';
 import { DepartmentService } from '../../services/department-service';
 
 @Component({
@@ -9,24 +10,33 @@ import { DepartmentService } from '../../services/department-service';
   templateUrl: './department-select-form.html',
   styleUrl: './department-select-form.scss',
 })
-export class DepartmentSelectForm {
-  dptService = inject(DepartmentService);
+export class DepartmentSelectForm implements OnInit, OnDestroy {
+  private readonly dptService = inject(DepartmentService);
+  private departmentsSubscription?: Subscription;
 
-    
-  allDepartments() {
-    return this.dptService.getDepartments();
+  protected allDepartments: DepartmentModel[] = [];
+  protected selectedDepartment = '';
+
+  ngOnInit() {
+    this.departmentsSubscription = this.dptService.departments$.subscribe(
+      (departments) => {
+        this.allDepartments = departments;
+      },
+    );
   }
-  selectedDepartment: string = '';
-
 
   onSubmit() {
-    if (!this.selectedDepartment.trim()) {
-      console.log('Please enter a department name');
+    const departmentName = this.selectedDepartment.trim();
+
+    if (!departmentName) {
       return;
     }
-    console.log("Adding Department" + this.selectedDepartment);
-    this.dptService.addDepartment(this.selectedDepartment);
+
+    this.dptService.addDepartment(departmentName);
     this.selectedDepartment = '';
   }
 
+  ngOnDestroy() {
+    this.departmentsSubscription?.unsubscribe();
+  }
 }

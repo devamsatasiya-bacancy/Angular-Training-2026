@@ -1,45 +1,41 @@
 import { Injectable } from '@angular/core';
-import { DepartmentEmployeesModel } from '../models/EmployeeModel';
+import { BehaviorSubject } from 'rxjs';
+import { DepartmentModel } from '../models/department.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DepartmentService {
+  private readonly departmentsSubject = new BehaviorSubject<DepartmentModel[]>([]);
 
-  private departmentList:  DepartmentEmployeesModel[] = [];
+  readonly departments$ = this.departmentsSubject.asObservable();
 
   addDepartment(department: string) {
-    if (this.departmentList.some((dep) => dep.name.toLowerCase() === department.toLowerCase())) {
-      console.log('Department already exists');
+    const departmentName = department.trim();
+
+    if (!departmentName) {
       return;
     }
-    const newDepartment: DepartmentEmployeesModel = {
-      id: Date.now(),
-      name: department,
-      employees: [],
-    };
 
-    this.departmentList.push(newDepartment);
-    console.log('Department added successfully');
-  }
+    const departmentList = this.departmentsSubject.value;
 
-  addEmployeeToDepartment(departmentId: number, employeeName: string) {
-    const department = this.departmentList.find((dep) => dep.id === departmentId);
-    if (!department) {
-      console.log('Department not found');
+    if (
+      departmentList.some(
+        (dep) => dep.name.toLowerCase() === departmentName.toLowerCase(),
+      )
+    ) {
       return;
     }
-    const newEmployee = {
-      id: Date.now(),
-      name: employeeName,
-      position: 'Employee',
-    };
-    department.employees.push(newEmployee);
-    console.log('Employee added successfully to the department');
-  }
 
+    const newDepartment: DepartmentModel = {
+      id: Date.now(),
+      name: departmentName,
+    };
+
+    this.departmentsSubject.next([...departmentList, newDepartment]);
+  }
 
   getDepartments() {
-    return this.departmentList;
+    return this.departmentsSubject.value;
   }
 }

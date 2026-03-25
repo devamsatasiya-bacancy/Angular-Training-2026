@@ -1,0 +1,28 @@
+<div class="employee-card-section">
+  <h2>{{ department().name }}</h2>
+
+  <form (ngSubmit)="onSubmit()">
+    <div class="name-selector">
+      <label [for]="'employeeName-' + department().id">Enter Employee Name:</label>
+      <input
+        type="text"
+        [id]="'employeeName-' + department().id"
+        [(ngModel)]="employeeName"
+        [name]="'employeeName-' + department().id"
+        required
+      />
+    </div>
+
+    <button type="submit">Add</button>
+  </form>
+
+  @if (employees.length > 0) {
+    <h3>Employees:</h3>
+
+    @for (employee of employees; track employee.id) {
+      <p>{{ employee.name }}</p>
+    }
+  } @else {
+    <p>No Employees Yet</p>
+  }
+</div>

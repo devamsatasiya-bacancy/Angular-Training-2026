@@ -14,8 +14,8 @@
 
   <h3>Current Departments</h3>
   <ul>
-    @if (allDepartments().length > 0) {
-      @for (dept of allDepartments(); track $index) {
+    @if (allDepartments.length > 0) {
+      @for (dept of allDepartments; track dept.id) {
         <li>{{ dept.name }}</li>
       }
     } @else {
