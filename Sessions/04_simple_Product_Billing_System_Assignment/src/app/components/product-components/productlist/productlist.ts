@@ -29,14 +29,20 @@ export class ProductListComponent {
 
   // component.ts
 updateQty(id: number, qty: number) {
-  this.quantities.update(q => ( {...q, [id]: qty }));
+  if (isNaN(qty)) {
+    return this.quantities.update(q => ( {...q, [id]: 0 }));
+  }
+  else{
+    this.quantities.update(q => ( {...q, [id]: qty }));
+  }
+    
 }
 
   
   productItems = signal<Product[]>(this.products);
 
   grandTotal = computed(() => {
-    
     return this.productItems().reduce((sum, item) => sum + item.price * this.quantities()[item.id], 0);
+
   });
 }
