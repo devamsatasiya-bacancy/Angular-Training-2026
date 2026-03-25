@@ -9,7 +9,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 })
 export class NavbarComponent {
   protected readonly navLinks = [
-    { label: 'Home', path: '/home' },
+    { label: 'Home', path: '/' },
     { label: 'Jobs', path: '/jobs' },
     { label: 'About', path: '/about' },
     { label: 'Contact', path: '/contact' },

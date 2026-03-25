@@ -1,6 +1,6 @@
 <header class="navbarWrap">
   <div class="navbar surfaceCard">
-    <a routerLink="/home" class="brand" aria-label="JobSprint home">
+    <a routerLink="/" class="brand" aria-label="JobSprint home">
       <span class="brandMark">JS</span>
       <span class="brandText">JobSprint</span>
     </a>
@@ -10,6 +10,7 @@
         <a
           [routerLink]="link.path"
           routerLinkActive="navLinkActive"
+          [routerLinkActiveOptions]="{ exact: true }"
           class="navLink"
         >
           {{ link.label }}
