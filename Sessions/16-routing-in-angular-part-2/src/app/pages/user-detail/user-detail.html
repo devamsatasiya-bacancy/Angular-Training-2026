@@ -1,0 +1,30 @@
+<section class="detail-page">
+  @if (user(); as selectedUser) {
+    <div class="detail-card">
+      <p class="section-label">User Detail</p>
+      <h2>{{ selectedUser.name }}</h2>
+      <p>User id from snapshot: <strong>{{ userId() }}</strong></p>
+      <p>{{ selectedUser.role }} based in {{ selectedUser.city }}</p>
+
+      <div class="actions">
+        <a routerLink="/users">Back to users</a>
+        <a
+          [routerLink]="['posts']"
+          [queryParams]="{ sort: 'recent' }"
+          fragment="comments"
+        >
+          View Posts
+        </a>
+      </div>
+    </div>
+
+    <router-outlet />
+  } @else {
+    <div class="detail-card">
+      <p class="section-label">User Detail</p>
+      <h2>User not found</h2>
+      <p>No hardcoded user matches the id <strong>{{ userId() }}</strong>.</p>
+      <a routerLink="/users">Return to the users list</a>
+    </div>
+  }
+</section>

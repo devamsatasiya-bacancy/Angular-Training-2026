@@ -1,0 +1,27 @@
+.not-found-card {
+  max-width: 42rem;
+  padding: 1.5rem;
+  border: 1px solid #fecaca;
+  border-radius: 1rem;
+  background-color: #fff7ed;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+}
+
+.section-label {
+  margin: 0 0 0.4rem;
+  color: #c2410c;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.85rem;
+}
+
+h2,
+p {
+  margin: 0 0 0.75rem;
+}
+
+a {
+  color: #9a3412;
+  font-weight: 700;
+}

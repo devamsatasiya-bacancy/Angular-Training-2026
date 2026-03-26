@@ -1,0 +1,21 @@
+<section class="users-page">
+  <div class="intro">
+    <p class="section-label">Users</p>
+    <h2>Select a user profile</h2>
+    <p>Each user link below navigates to <code>/users/:id</code>.</p>
+  </div>
+
+  <div class="user-list">
+    @for (user of users(); track user.id) {
+      <a
+        class="user-card"
+        [routerLink]="['/users', user.id]"
+        routerLinkActive="active-card"
+      >
+        <h3>{{ user.name }}</h3>
+        <p>{{ user.role }}</p>
+        <span>{{ user.city }}</span>
+      </a>
+    }
+  </div>
+</section>

@@ -1,0 +1,18 @@
+<section class="posts-card">
+  <p class="section-label">Posts</p>
+  <h3>Posts for user id {{ userId() }}</h3>
+  <p>Query param sort: <strong>{{ sortOrder() || 'none' }}</strong></p>
+  <p>Fragment: <strong>{{ fragmentValue() || 'none' }}</strong></p>
+
+  @if (sortOrder() === 'recent') {
+    <p class="status-banner">Showing the most recent posts first.</p>
+  }
+
+  <ul>
+    @for (post of posts(); track post.id) {
+      <li>{{ post.title }}</li>
+    }
+  </ul>
+
+  <button type="button" (click)="goBack()">Go Back</button>
+</section>
