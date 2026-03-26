@@ -8,6 +8,7 @@ export const routes: Routes = [
   },
   {
     path: 'home',
+    
     loadComponent: () =>
       import('./pages/home/home').then(m=> m.HomeComponent)
   },
@@ -23,7 +24,7 @@ export const routes: Routes = [
     children: [
       {
         path: 'posts',
-        loadChildren: () =>
+        loadComponent: () =>
           import('./pages/post-list/post-list').then(m=> m.PostListComponent)
       }
     ]
