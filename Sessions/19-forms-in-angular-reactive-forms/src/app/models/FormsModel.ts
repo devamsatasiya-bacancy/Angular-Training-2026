@@ -1,9 +1,11 @@
 export interface Company {
+    id:string;
     name: string;
     email: string;
     website: string;
     phoneNumber: string;
-    projectsId: string[];
+    projectsId: Project[];
+    message: string;
 }
 
 export interface Project{
