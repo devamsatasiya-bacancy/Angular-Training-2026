@@ -1,0 +1,119 @@
+.form-wrapper {
+  max-width: 760px;
+  margin: 40px auto;
+  padding: 24px;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
+}
+
+h1,
+h2 {
+  margin: 0 0 12px;
+  color: #0f172a;
+}
+
+.hint {
+  margin-bottom: 20px;
+  color: #475569;
+}
+
+form {
+  display: grid;
+  gap: 16px;
+}
+
+.form-group {
+  display: grid;
+  gap: 8px;
+}
+
+label {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 10px 12px;
+  border: 2px solid #cbd5e1;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+input.ng-invalid.ng-touched,
+input.ng-invalid.ng-dirty,
+select.ng-invalid.ng-touched,
+select.ng-invalid.ng-dirty {
+  border-color: #dc2626;
+}
+
+input.ng-valid.ng-touched,
+input.ng-valid.ng-dirty,
+select.ng-valid.ng-touched,
+select.ng-valid.ng-dirty {
+  border-color: #16a34a;
+}
+
+.radio-group,
+.checkbox-group {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.radio-group label,
+.checkbox-group label {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-weight: 500;
+}
+
+.radio-group input,
+.checkbox-group input {
+  width: auto;
+}
+
+.button-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+button {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 8px;
+  background: #2563eb;
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button.secondary {
+  background: #64748b;
+}
+
+button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.error-text {
+  margin: 0;
+  color: #dc2626;
+  font-size: 14px;
+}
+
+.result-card {
+  margin-top: 24px;
+  padding: 20px;
+  border-radius: 12px;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+}

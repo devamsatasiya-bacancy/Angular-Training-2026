@@ -1,0 +1,188 @@
+<section class="form-wrapper">
+  <h1>Template Driven Form</h1>
+  <p class="hint">
+    First Name uses one way binding with <code>[ngModel]</code>. Other controls use two way binding with <code>[(ngModel)]</code>.
+  </p>
+
+  <form #userForm="ngForm" (ngSubmit)="onSubmit()">
+    <div class="button-row top-actions">
+      <button type="button" (click)="setDemoValues()">Fill Using setValue()</button>
+      <button type="button" (click)="patchDemoValues()">Fill Using patchValue()</button>
+    </div>
+
+    <div class="form-group">
+      <label for="firstName">First Name</label>
+      <input
+        #firstName="ngModel"
+        id="firstName"
+        type="text"
+        name="firstName"
+        [ngModel]="formData.firstName"
+        required
+        minlength="5"
+      />
+      @if ((firstName.touched || firstName.dirty) && firstName.invalid) {
+        <p class="error-text">
+          @if (firstName.errors?.['required']) {
+            <span>First Name is required.</span>
+          }
+          @if (firstName.errors?.['minlength']) {
+            <span>First Name must be at least 5 characters.</span>
+          }
+        </p>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="lastName">Last Name</label>
+      <input
+        #lastName="ngModel"
+        id="lastName"
+        type="text"
+        name="lastName"
+        [(ngModel)]="formData.lastName"
+        required
+        minlength="5"
+      />
+      @if ((lastName.touched || lastName.dirty) && lastName.invalid) {
+        <p class="error-text">
+          @if (lastName.errors?.['required']) {
+            <span>Last Name is required.</span>
+          }
+          @if (lastName.errors?.['minlength']) {
+            <span>Last Name must be at least 5 characters.</span>
+          }
+        </p>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="email">Email ID</label>
+      <input
+        #email="ngModel"
+        id="email"
+        type="email"
+        name="email"
+        [(ngModel)]="formData.email"
+        required
+        email
+        minlength="5"
+      />
+      @if ((email.touched || email.dirty) && email.invalid) {
+        <p class="error-text">
+          @if (email.errors?.['required']) {
+            <span>Email ID is required.</span>
+          }
+          @if (email.errors?.['email']) {
+            <span>Please enter a valid email ID.</span>
+          }
+          @if (email.errors?.['minlength']) {
+            <span>Email ID must be at least 5 characters.</span>
+          }
+        </p>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="phoneNumber">Phone Number</label>
+      <input
+        #phoneNumber="ngModel"
+        id="phoneNumber"
+        type="text"
+        name="phoneNumber"
+        [(ngModel)]="formData.phoneNumber"
+        required
+        minlength="5"
+      />
+      @if ((phoneNumber.touched || phoneNumber.dirty) && phoneNumber.invalid) {
+        <p class="error-text">
+          @if (phoneNumber.errors?.['required']) {
+            <span>Phone Number is required.</span>
+          }
+          @if (phoneNumber.errors?.['minlength']) {
+            <span>Phone Number must be at least 5 characters.</span>
+          }
+        </p>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input
+        #password="ngModel"
+        id="password"
+        type="password"
+        name="password"
+        [(ngModel)]="formData.password"
+        required
+        minlength="5"
+      />
+      @if ((password.touched || password.dirty) && password.invalid) {
+        <p class="error-text">
+          @if (password.errors?.['required']) {
+            <span>Password is required.</span>
+          }
+          @if (password.errors?.['minlength']) {
+            <span>Password must be at least 5 characters.</span>
+          }
+        </p>
+      }
+    </div>
+
+    <div class="form-group">
+      <label>Gender</label>
+      <div class="radio-group">
+        <label>
+          <input type="radio" name="gender" value="Male" [(ngModel)]="formData.gender" required />
+          Male
+        </label>
+        <label>
+          <input type="radio" name="gender" value="Female" [(ngModel)]="formData.gender" required />
+          Female
+        </label>
+      </div>
+      @if ((userForm.controls['gender']?.touched || userForm.controls['gender']?.dirty) && userForm.controls['gender']?.invalid) {
+        <p class="error-text">Gender is required.</p>
+      }
+    </div>
+
+    <div class="form-group">
+      <label for="city">City Location</label>
+      <select #city="ngModel" id="city" name="city" [(ngModel)]="formData.city" required>
+        <option value="">Select City</option>
+        @for (cityOption of cityOptions; track cityOption) {
+          <option [value]="cityOption">{{ cityOption }}</option>
+        }
+      </select>
+      @if ((city.touched || city.dirty) && city.invalid) {
+        <p class="error-text">City Location is required.</p>
+      }
+    </div>
+
+    <div class="form-group checkbox-group">
+      <label>
+        <input type="checkbox" name="rememberMe" [(ngModel)]="formData.rememberMe" />
+        Remember Me
+      </label>
+    </div>
+
+    <div class="button-row">
+      <button type="submit" [disabled]="userForm.invalid">Save</button>
+      <button type="button" class="secondary" (click)="onReset()">Reset Form</button>
+    </div>
+  </form>
+
+  @if (submittedData) {
+    <section class="result-card">
+      <h2>Submitted Data</h2>
+      <p><strong>First Name:</strong> {{ submittedData.firstName }}</p>
+      <p><strong>Last Name:</strong> {{ submittedData.lastName }}</p>
+      <p><strong>Email ID:</strong> {{ submittedData.email }}</p>
+      <p><strong>Phone Number:</strong> {{ submittedData.phoneNumber }}</p>
+      <p><strong>Password:</strong> {{ submittedData.password }}</p>
+      <p><strong>Gender:</strong> {{ submittedData.gender }}</p>
+      <p><strong>City Location:</strong> {{ submittedData.city }}</p>
+      <p><strong>Remember Me:</strong> {{ submittedData.rememberMe ? 'Yes' : 'No' }}</p>
+    </section>
+  }
+</section>
