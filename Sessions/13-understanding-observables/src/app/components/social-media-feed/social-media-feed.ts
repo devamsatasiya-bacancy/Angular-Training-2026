@@ -1,37 +1,29 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, computed, OnDestroy, signal } from '@angular/core';
 import { SocialMediaPost } from '../social-media-post/social-media-post';
 import { SMPostModel } from '../../models/SMPostModel';
-import { concatMap, of, from, Observable, delay, tap, Subscriber, Subscription, map } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-social-media-feed',
   imports: [SocialMediaPost],
   templateUrl: './social-media-feed.html',
-  styleUrl: './social-media-feed.scss'
+  styleUrl: './social-media-feed.scss',
 })
-export class SocialMediaFeed {
+export class SocialMediaFeed implements OnDestroy {
   subsriber1: Subscription | undefined;
-  updatePostLikes(id: number) {
-    this.socialMediaPosts.update((posts) => {
-      return posts.map((post) => {
-        if (post.id === id) {
-          return { ...post, likes: post.likes + 1 };
-        }
-        return post;
-      });
-    });
-  }
-
-  getTotalLikes(): number {
-    return this.socialMediaPosts().reduce((total, post) => total + post.likes, 0);
-  }
-
   toastMessage = signal<string>('');
-  socialMediaPosts = signal<SMPostModel[]>([]);
-
+  socialMediaPosts = signal<SMPostModel[]>([{
+  id: 0,
+  content: `Welcome to the Social Media Feed! This is the first post. ${new Date().toLocaleTimeString()}`,
+  likes: 0,
+  comments: 0,
+  title: 'Welcome Post',
+  }]);
   isFeedRereshing = signal<boolean>(false);
-
   i = 1;
+  getTotalLikes = computed<number>(() => {
+    return this.socialMediaPosts().reduce((total, post) => total + post.likes, 0);
+  });
   socialMediaPostsObs$ = new Observable<SMPostModel>((subscriber) => {
     const intervalId = setInterval(() => {
       if (!this.isFeedRereshing()) {
@@ -44,7 +36,7 @@ export class SocialMediaFeed {
           id: this.i,
           content: `This is post number ${this.i} ${new Date().toLocaleTimeString()}`,
           likes: this.i,
-          comments: this.i *2,
+          comments: this.i * 2,
           title: `Post Title ${this.i}`,
         };
         subscriber.next(post);
@@ -54,21 +46,32 @@ export class SocialMediaFeed {
     }, 2000);
   });
 
+  updatePostLikes(id: number) {
+    this.socialMediaPosts.update((posts) => {
+      return posts.map((post) => {
+        if (post.id === id) {
+          return { ...post, likes: post.likes + 1 };
+        }
+        return post;
+      });
+    });
+  }
+
   /* this method starts subscribing to the observable type SMPostModel */
   startSubscribing(observer: Observable<SMPostModel>): Subscription {
     return observer.subscribe({
-        next: (data) => {
-          if (data !== undefined) {
-            this.socialMediaPosts.update((posts) => {
-              return [data,...posts, ];
-            });
-          }
-        },
-        error: (e) => {
-          console.error(e);
-        },
-        complete: () => console.info('complete'),
-      });
+      next: (data) => {
+        if (data !== undefined) {
+          this.socialMediaPosts.update((posts) => {
+            return [data, ...posts];
+          });
+        }
+      },
+      error: (e) => {
+        console.error(e);
+      },
+      complete: () => console.info('complete'),
+    });
   }
   toggleRefreshing() {
     console.log('TOGGLE TRIGGERED');
@@ -76,23 +79,18 @@ export class SocialMediaFeed {
       this.isFeedRereshing.set(true);
       this.toastMessage.set('Feed refreshing started. New posts will be emitted every 2 seconds.');
       this.subsriber1 = this.startSubscribing(this.socialMediaPostsObs$);
-
     } else {
-
       this.isFeedRereshing.set(false);
       this.toastMessage.set('Feed refreshing stopped. No more posts will be emitted.');
       if (this.subsriber1) {
         this.subsriber1.unsubscribe();
       }
     }
+  }
 
-    // socialMediaPosts$ = from(this.socialMediaPostsData).pipe(map((post) => {
-
-    //   if (!this.isFeedRereshing()) {
-    //     return of().pipe(tap(() => console.log("Feed refreshing stopped. No more posts will be emitted.")));
-    //   }
-    //   return of(post).pipe(delay(2000) , tap( val => console.log("Emitted value: ", val)
-    // ));
-    // }));
+  ngOnDestroy(): void {
+    if (this.subsriber1) {
+      this.subsriber1.unsubscribe();
+    }
   }
 }
