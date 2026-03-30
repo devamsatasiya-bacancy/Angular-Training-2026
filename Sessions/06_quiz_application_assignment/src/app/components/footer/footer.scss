@@ -1,0 +1,16 @@
+$primary: #123458;
+$accent: #d4c9be;
+
+.app-footer {
+	border: 2px solid $primary;
+	background-color: $accent;
+	color: $primary;
+	margin-top: auto;
+	padding: 0.85rem 1rem;
+}
+
+.app-footer p {
+	font-size: 0.9rem;
+	font-weight: 600;
+	margin: 0;
+}

@@ -2,18 +2,20 @@
   @switch (gameStatus()) {
     @case ('home') {
       <div class="quiz-home">
-      
-        <h1>Hello, Ready to Learn someting new ??</h1>
-        <h2>{{titledata()}}</h2>
-        <button (click)="startQuiz()">Start Quiz</button>
+        <h1>Ready to Learn Something New?</h1>
+        <h2>{{ titledata() }}</h2>
+        <p class="meta">Total Questions: {{ totalQuestions() }}</p>
+        <button class="action-btn" (click)="startQuiz()">Start Quiz</button>
       </div>
     }
     @case ('playing') {
       <div class="quiz-playing">
+        <p class="meta">Total Questions: {{ totalQuestions() }}</p>
+        <p class="meta">Question {{ currentQuestionNumber() }} / {{ totalQuestions() }}</p>
         <h2>{{ currentQuestion().question }}</h2>
         <div class="quiz-question">
           @for (option of currentQuestion().options; track $index) {
-            <div class="quiz-options">
+            <div class="quiz-option">
               <label for="{{ option }}">
                 <input
                   type="radio"
@@ -21,51 +23,42 @@
                   id="{{ option }}"
                   value="{{ option }}"
                   [(ngModel)]="userAnswers[currentIndex()]"
-                />{{ option }}
+                />
+                <span>{{ option }}</span>
               </label>
             </div>
           }
         </div>
-        <!-- //{{currentQuestion().question}} -->
-        <button (click)="previousQuestion()">previous</button>
-        <button (click)="nextQuestion()">next</button>
-        <p>{{ userAnswers }}</p>
+        <div class="quiz-actions">
+          <button
+            class="secondary-btn"
+            (click)="previousQuestion()"
+            [disabled]="currentIndex() === 0"
+          >
+            Back
+          </button>
+          <button class="action-btn" (click)="nextQuestion()">
+            {{ currentQuestionNumber() === totalQuestions() ? 'Finish Quiz' : 'Next' }}
+          </button>
+        </div>
       </div>
     }
     @case ('end') {
-      <h2>Your Result</h2>
-      <p>{{ showResult() }}</p>
-
-      @if (percentagebody == 0) {
-        <p></p>
-      } @else if (percentagebody <= 0.2) {
-                <span [ngStyle]="{
-            'color':'red',
-            
-        }">★</span>
-      }
-      @else if (percentagebody<=0.4) {
-        <p [ngStyle]="{
-            'color':'orange'
-        }">★★</p>
-      }
-      @else if (percentagebody <= 0.6) {
-                <p [ngStyle]="{
-            'color':'orange'
-        }">★★★</p>
-
-      }
-            @else if (percentagebody <= 0.9) {
-                <p [ngStyle]="{
-            'color':'yellow'
-        }">★★★★</p>
-
-      }
-      @else {
-                <p [ngStyle]="{
-            'color':'green'
-        }">★★★★★</p>
-      }
+      <div class="quiz-end">
+        <h2>Quiz Completed</h2>
+        <p class="score">Score: {{ finalScore() }} / {{ totalQuestions() }}</p>
+        <p
+          class="star-rating"
+          [ngClass]="{
+            'low': starTone() === 'low',
+            'medium': starTone() === 'medium',
+            'high': starTone() === 'high'
+          }"
+        >
+          {{ starDisplay() }}
+        </p>
+        <button class="action-btn" (click)="restartQuiz()">Restart Quiz</button>
+      </div>
     }
   }
 </div>
