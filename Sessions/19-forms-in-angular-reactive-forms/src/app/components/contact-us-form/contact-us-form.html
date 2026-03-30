@@ -1,0 +1,60 @@
+<div class="contact-us-form">
+  <div class="company-form">
+    <h2>Company Information</h2>
+    @if (companyForm) {
+      <form [formGroup]="companyForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="name">Name:</label>
+          <input id="name" formControlName="name" type="text" />
+          @if (companyForm.controls['name'].errors && companyForm.controls['name'].touched) {
+            <div class="error">Name is required.</div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input id="email" formControlName="email" type="email" />
+          @if (companyForm.controls['email'].errors && companyForm.controls['email'].touched) { 
+            <div class="error">Please enter a valid email address.</div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="website">Website:</label>
+          <input id="website" formControlName="website" type="text" />
+          @if (companyForm.controls['website'].errors) {
+            <div class="error">Please enter a valid website URL.</div>
+          } 
+
+          </div>
+
+        <div class="form-group">
+          <label for="phone">Phone Number:</label>
+          <input id="phone" formControlName="phoneNumber" type="number" />
+
+          @if (companyForm.controls['phoneNumber'].errors && companyForm.controls['phoneNumber'].touched) {
+            <div class="error">Please enter a valid phone number.</div>
+          } 
+          </div>
+   
+        <div formArrayName="projects">
+          @for (item of projectGroupsArray.controls; track $index; let i = $index) {
+            <div class="project-form">
+              <h3>Project {{ $index + 1 }}</h3>
+              <div class="form-group" [formGroupName]="i">
+                <label for="projectName-{{ $index }}">Name:</label>
+                <input id="projectName-{{ $index }}" formControlName="name" type="text" />
+              </div>
+              <div class="form-group"></div>
+            </div>
+          }
+        </div>
+        <button type="button" (click)="addProjectForm()">Add Project</button>
+        <button type="submit" [disabled]="companyForm.invalid">Submit</button>
+
+        <!-- {{ companyForm.get('projects') }} -->
+        <!-- <button type="button" (click)="onReset()">Reset</button> -->
+      </form>
+    }
+  </div>
+</div>

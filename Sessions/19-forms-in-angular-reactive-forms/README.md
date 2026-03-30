@@ -1,59 +1,24 @@
-# 19FormsInAngularReactiveForms
+1. Create a reactive form for a company with fields like name, email, website, and phone number.
+2. Set the default values of the company form with Bacancy's information when the form loads.
+3. Add validation rules for the form fields, such as making certain fields required and email validation.
+4. Create a custom validator to ensure the phone number follows the given phone number format (e.g., country code + number), keep the validator flexible for different country formats.
+5. Within the company form, include a section to add and delete projects.
+6. Each project should have fields like name, description, start date, and end date.
+7. Implement functionality to add new projects to the company and remove existing projects from the company.
+8. Create an async validator for the project name field to check if the entered project name already exists for that company. If it does, display an error message indicating that the project name is already taken.
+9. Display appropriate error messages for any validation errors in the form fields.
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.1.
+11. On click reset button - set default values again in company form.
+12. On click submit button - display form values.
+13. add a functionality to disable submit button until the form is valid.
+14. create two main routes 
+    - /contact-us : which will have the company form and the functionality to add and delete projects.
+    - /project-details : which will display the details of the projects added in the company form.
+15. use Angular services to manage the state of the company and projects data across the application.
 
-## Development server
+## validators:
+    1. custom validator for website field to ensure it starts with "http://" or "https://" or "www."
+    2. check date , start date should not be greater than end date.
 
-To start a local development server, run:
 
-```bash
-ng serve
-```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
