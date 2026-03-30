@@ -66,6 +66,7 @@ export class ContactUsForm implements AfterViewInit {
       city: this.formData.city,
       rememberMe: this.formData.rememberMe,
     };
+    this.userForm?.reset();
   }
 
   onReset(): void {
