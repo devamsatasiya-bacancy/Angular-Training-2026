@@ -1,9 +1,7 @@
 <section class="form-wrapper">
-  <h1>Template Driven Form</h1>
-  <p class="hint">
-    First Name uses one way binding with <code>[ngModel]</code>. Other controls use two way binding with <code>[(ngModel)]</code>.
-  </p>
-
+  <!-- <h1>Template Driven Form</h1> -->
+  <h2 class="hint">Hii, {{ formData.firstName }}! Please fill out the form below.</h2>
+  <p>{{formData.password}}</p>
   <form #userForm="ngForm" (ngSubmit)="onSubmit()">
     <div class="button-row top-actions">
       <button type="button" (click)="setDemoValues()">Fill Using setValue()</button>
@@ -17,7 +15,7 @@
         id="firstName"
         type="text"
         name="firstName"
-        [ngModel]="formData.firstName"
+        [(ngModel)]="formData.firstName"
         required
         minlength="5"
       />
@@ -141,7 +139,10 @@
           Female
         </label>
       </div>
-      @if ((userForm.controls['gender']?.touched || userForm.controls['gender']?.dirty) && userForm.controls['gender']?.invalid) {
+      @if (
+        (userForm.controls['gender']?.touched || userForm.controls['gender']?.dirty) &&
+        userForm.controls['gender']?.invalid
+      ) {
         <p class="error-text">Gender is required.</p>
       }
     </div>
@@ -168,7 +169,7 @@
 
     <div class="button-row">
       <button type="submit" [disabled]="userForm.invalid">Save</button>
-      <button type="button" class="secondary" (click)="onReset()">Reset Form</button>
+      <button type="button" class="secondary" (click)="onReset(true)">Reset Form</button>
     </div>
   </form>
 

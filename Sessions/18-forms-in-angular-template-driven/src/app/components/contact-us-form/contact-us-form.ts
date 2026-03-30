@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
+import { ContactUsFormModel } from '../../models/ContactUsFormModel';
 
 @Component({
   selector: 'app-contact-us-form',
@@ -13,7 +14,7 @@ export class ContactUsForm implements AfterViewInit {
 
   readonly cityOptions = ['Ahmedabad', 'Surat', 'Vadodara', 'Rajkot'];
 
-  formData = {
+  formData: ContactUsFormModel = {
     firstName: 'Amit',
     lastName: '',
     email: '',
@@ -24,7 +25,7 @@ export class ContactUsForm implements AfterViewInit {
     rememberMe: false,
   };
 
-  submittedData?: typeof this.formData;
+  submittedData?: ContactUsFormModel;
 
   ngAfterViewInit(): void {
     this.patchDemoValues();
@@ -66,10 +67,10 @@ export class ContactUsForm implements AfterViewInit {
       city: this.formData.city,
       rememberMe: this.formData.rememberMe,
     };
-    this.userForm?.reset();
+    this.onReset(false);  
   }
 
-  onReset(): void {
+  onReset(resetsubmittedData: boolean): void {
     this.userForm?.resetForm({
       firstName: '',
       lastName: '',
@@ -90,6 +91,9 @@ export class ContactUsForm implements AfterViewInit {
       city: '',
       rememberMe: false,
     };
-    this.submittedData = undefined;
+    if (resetsubmittedData) {
+      
+      this.submittedData = undefined;
+    }
   }
 }
