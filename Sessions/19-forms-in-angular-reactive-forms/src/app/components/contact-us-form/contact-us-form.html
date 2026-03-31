@@ -42,6 +42,12 @@
             ) {
               <div class="error">Please enter a valid phone number.</div>
             }
+            
+                @if (
+              companyForm.controls['phoneNumber']?.hasError('required')
+            ) {
+              <div class="error">Please enter a valid phone number.</div>
+            }
           </div>
         </div>
 
