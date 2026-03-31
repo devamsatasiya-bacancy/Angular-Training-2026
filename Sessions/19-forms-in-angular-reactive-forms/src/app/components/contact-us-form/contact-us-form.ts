@@ -1,5 +1,4 @@
-import { JsonPipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import {
   FormArray,
   FormControl,
@@ -8,17 +7,35 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { dateValidator, uniqueProjectNameValidator } from '../../validators/form-validators';
+import { JsonPipe } from '@angular/common';
+import {
+  dateValidator,
+  indiaPhoneValidator,
+  uniqueProjectNameValidator,
+} from '../../validators/form-validators';
+
+import { Company } from '../../models/FormsModel';
+import { CompanyFormService } from '../../services/company-form';
 
 @Component({
   selector: 'app-contact-us-form',
   imports: [ReactiveFormsModule, FormsModule, JsonPipe],
   templateUrl: './contact-us-form.html',
-  styleUrl: './contact-us-form.sass',
+  styleUrl: './contact-us-form.scss',
 })
 export class ContactUsForm implements OnInit {
+  
   protected companyForm?: FormGroup;
-
+  protected companyFormData: Company | null = null;
+  private defaultCompanyDetails: Company = {
+    id: '1',
+    name: 'Bacancy Technology',
+    email: 'bacancy@bacancytechnology.com',
+    website: 'https://www.bacancytechnology.com/',
+    phoneNumber: '+917234567890',
+    projects: [],
+  };
+  private companyformService = inject(CompanyFormService);
   get projectGroupsArray() {
     //console.log(new Date().toISOString().split('T')[0], [Validators.required]);
     return this.companyForm?.get('projects') as FormArray;
@@ -27,56 +44,74 @@ export class ContactUsForm implements OnInit {
     this.initCompanyForm();
   }
   clearProjectForm(index: number) {
-    const projects = this.projectGroupsArray.at(index);
-    if (projects) {
-      projects.setValue({
+    console.log('clearing form at--->', index);
+    const projectGroup = this.projectGroupsArray.at(index);
+    //console.log(projectGroup)
+    if (projectGroup) {
+      projectGroup.setValue({
         name: '',
         description: '',
         startDate: '',
         endDate: '',
       });
     }
+    
   }
 
-  removeProjectForm(index: number):void {
+  resetCompanyForm(): void {
+    this.companyForm?.reset({
+      name: this.defaultCompanyDetails.name,
+      email: this.defaultCompanyDetails.email,
+      website: this.defaultCompanyDetails.website,
+      phoneNumber: this.defaultCompanyDetails.phoneNumber,
+      message: this.defaultCompanyDetails.message,
+    });
+  }
+
+  removeProjectForm(index: number): void {
     const projects = this.projectGroupsArray;
     if (projects) {
       projects.removeAt(index);
     }
   }
-  onCompanyFormSubmit():void {
+  onCompanyFormSubmit(): void {
     if (this.companyForm?.valid) {
-      console.log(this.companyForm.value['projects']);
+      console.log(this.companyForm.value);
+      this.companyFormData = this.companyForm.value;
     }
+    this.companyformService.setCompanyDetails(this.companyFormData!);
   }
   initCompanyForm(): void {
     this.companyForm = new FormGroup({
-      name: new FormControl('Bacancy Technology', [Validators.required]),
-      email: new FormControl('contact@bacancytechnology.com', [
+      name: new FormControl(this.defaultCompanyDetails.name, [Validators.required]),
+      email: new FormControl(this.defaultCompanyDetails.email, [
         Validators.required,
         Validators.email,
       ]),
-      website: new FormControl('https://www.bacancytechnology.com/', [
+      website: new FormControl(this.defaultCompanyDetails.website, [
         Validators.required,
         Validators.pattern(/^(https?:\/\/|www\.)/),
       ]),
       // TODO:  add custom validator to validate phone number based on country code selected.
-      phoneNumber: new FormControl(1234567890, [
+      phoneNumber: new FormControl(this.defaultCompanyDetails.phoneNumber, [
         Validators.required,
-        Validators.pattern(/^[0-9]{10}$/),
+        indiaPhoneValidator(),
       ]),
       projects: new FormArray([]),
-      message: new FormControl(''),
+      message: new FormControl(this.defaultCompanyDetails.message),
     });
   }
 
   getProjectFormGroup(): FormGroup {
     return new FormGroup(
       {
-        name: new FormControl('', { validators: [Validators.required], asyncValidators: uniqueProjectNameValidator(this.projectGroupsArray.value) , updateOn: "blur" } ),
+        name: new FormControl('', {
+          validators: [Validators.required],
+          asyncValidators: [uniqueProjectNameValidator(this.projectGroupsArray.value)],
+          updateOn: 'blur',
+        }),
         description: new FormControl('', {
           validators: [Validators.required],
-          
         }),
         startDate: new FormControl(new Date().toISOString().split('T')[0], [Validators.required]),
         endDate: new FormControl('', [Validators.required]),
@@ -90,7 +125,6 @@ export class ContactUsForm implements OnInit {
 
   addProjectForm(): void {
     const projects = this.projectGroupsArray;
-
     projects?.push(this.getProjectFormGroup());
     //console.log(projects);
   }

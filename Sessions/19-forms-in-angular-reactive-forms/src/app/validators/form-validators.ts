@@ -1,7 +1,8 @@
-import { AbstractControl, ValidationErrors , AsyncValidatorFn } from '@angular/forms';
+import { AbstractControl, ValidationErrors , AsyncValidatorFn, ValidatorFn, FormControl } from '@angular/forms';
 import { Observable, of } from 'rxjs';
-import { map, catchError, delay } from 'rxjs/operators';
 import { Project } from '../models/FormsModel';
+
+
 export function dateValidator(control:AbstractControl): ValidationErrors | null {
   const startDate = control.get('startDate')?.value;
   const endDate = control.get('endDate')?.value;
@@ -11,7 +12,6 @@ export function dateValidator(control:AbstractControl): ValidationErrors | null 
   return isInvalid ? { 'invalidDateRange': true } : null;
 }
 
-
 export function uniqueProjectNameValidator(currentProjects: Project[]): AsyncValidatorFn {
   return (control: AbstractControl): Observable<ValidationErrors | null> => {
     //console.log("hello" + control.value)
@@ -19,8 +19,21 @@ export function uniqueProjectNameValidator(currentProjects: Project[]): AsyncVal
 
     const isTaken = currentProjects.some(project => {
       console.log(project.name + " --->" + control.value)
-      return project.name === control.value});
+      return project.name.toLowerCase() === control.value.toLowerCase()});
     return of(isTaken ? { projectNameExists: true } : null);
 
   };
+}
+
+// a general phone number validator for 10 digit numbers, can be enhanced to include country codes, different formats, etc. 
+export function indiaPhoneValidator() : ValidatorFn {
+
+    return (control: AbstractControl): ValidationErrors | null => {
+        const value = control.value;
+
+        if (!value) return null;
+
+        const regex = /^\+91[6-9]\d{9}$/;
+        return regex.test(value) ? null : { invalidPhone: true };
+    };
 }

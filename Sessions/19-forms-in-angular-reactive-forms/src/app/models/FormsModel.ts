@@ -4,8 +4,8 @@ export interface Company {
     email: string;
     website: string;
     phoneNumber: string;
-    projectsId: Project[];
-    message: string;
+    projects: Project[];
+    message?: string;
 }
 
 export interface Project{

@@ -4,10 +4,15 @@ import { Company } from '../models/FormsModel';
 @Injectable({
   providedIn: 'root',
 })
-export class CompanyForm { 
-  private companyDetals: Company | null = null;
+export class CompanyFormService { 
+  private companyDetals: Company[] | null = null;
 
   setCompanyDetails(details: Company) {
-    this.companyDetals = details;
+    this.companyDetals = this.companyDetals || [];
+    this.companyDetals.push(details);
+  }
+
+  getCompanyDetails(): Company[] | null {
+    return this.companyDetals;
   }
 }

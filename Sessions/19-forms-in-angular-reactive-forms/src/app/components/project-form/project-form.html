@@ -1,0 +1,63 @@
+<div class="project-form"  >
+  <h3>Project {{ projectIndex + 1 }}</h3>
+  <div class="form-group">
+    <label for="projectName-{{ projectIndex }}">Name:</label>
+    <input id="projectName-{{ projectIndex }}" formControlName="name" type="text" />
+
+    @if (
+      projectGroup?.get('name')?.hasError('required') &&
+      projectGroup?.get('name')?.touched
+    ) {
+      <div class="error">Project name is required.</div>
+    }
+    @if (
+      projectGroup?.get('name')?.hasError('projectNameExists') &&
+      projectGroup?.get('name')?.touched
+    ) {
+      <div class="error">Project name must be unique.</div>
+    }
+  </div>
+  <div class="form-group">
+    <label for="projectDescription-{{ projectIndex }}">Description:</label>
+    <textarea
+      id="projectDescription-{{ projectIndex }}"
+      formControlName="description"
+      type="text"
+    ></textarea>
+    @if (
+      projectGroup?.get('description')?.hasError('required') &&
+      projectGroup?.get('description')?.touched
+    ) {
+      <div class="error">Project description is required.</div>
+    }
+  </div>
+  <div class="form-group">
+    <label for="projectStartDate-{{ projectIndex }}">Start Date:</label>
+    <input id="projectStartDate-{{ projectIndex }}" formControlName="startDate" type="date" />
+    @if (
+      projectGroup?.get('startDate')?.hasError('required') &&
+      projectGroup?.get('startDate')?.touched
+    ) {
+      <div class="error">Project start date is required.</div>
+    }
+  </div>
+  <div class="form-group">
+    <label for="projectEndDate-{{ projectIndex }}">End Date:</label>
+    <input id="projectEndDate-{{ projectIndex }}" formControlName="endDate" type="date" />
+    @if (
+      projectGroup?.get('endDate')?.hasError('required') &&
+      projectGroup?.get('endDate')?.touched
+    ) {
+      <div class="error">Project end date is required.</div>
+    }
+    @if (
+      projectGroup?.hasError('invalidDateRange') &&
+      (projectGroup?.get('startDate')?.touched ||
+        projectGroup?.get('endDate')?.touched)
+    ) {
+      <div class="error">Invalid Date Range.</div>
+    }
+  </div>
+  <button type="button" (click)="clearProjectForm(projectIndex)">Clear</button>
+  <button type="button" (click)="removeProjectForm(projectIndex)">Remove Project</button>
+</div>

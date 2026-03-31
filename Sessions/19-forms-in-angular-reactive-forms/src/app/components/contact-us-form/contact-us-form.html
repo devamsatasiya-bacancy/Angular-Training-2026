@@ -1,122 +1,151 @@
 <div class="contact-us-form">
   <div class="company-form">
-    <h2>Company Information</h2>
+    <div class="section-heading">
+      <span>Company Form</span>
+      <h2>Company Information</h2>
+      <p>Share your company details and add project information in a clean, structured layout.</p>
+    </div>
     @if (companyForm) {
       <form [formGroup]="companyForm" (ngSubmit)="onCompanyFormSubmit()">
-        <div class="form-group">
-          <label for="name">Name:</label>
-          <input id="name" formControlName="name" type="text" />
-          @if (companyForm.controls['name']?.errors && companyForm.controls['name']?.touched) {
-            <div class="error">Name is required.</div>
-          }
+        <div class="company-grid">
+          <div class="form-group">
+            <label for="name">Name:</label>
+            <input id="name" formControlName="name" type="text" />
+            @if (companyForm.controls['name']?.errors && companyForm.controls['name']?.touched) {
+              <div class="error">Name is required.</div>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email:</label>
+            <input id="email" formControlName="email" type="email" />
+            @if (companyForm.controls['email']?.errors && companyForm.controls['email']?.touched) {
+              <div class="error">Please enter a valid email address.</div>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="website">Website:</label>
+            <input id="website" formControlName="website" type="text" />
+            @if (companyForm.controls['website']?.errors) {
+              <div class="error">Please enter a valid website URL.</div>
+            }
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone Number:</label>
+            <input id="phone" formControlName="phoneNumber" type="text" />
+
+                @if (
+              companyForm.controls['phoneNumber']?.hasError('invalidPhone') &&
+              companyForm.controls['phoneNumber']?.touched
+            ) {
+              <div class="error">Please enter a valid phone number.</div>
+            }
+          </div>
         </div>
 
-        <div class="form-group">
-          <label for="email">Email:</label>
-          <input id="email" formControlName="email" type="email" />
-          @if (companyForm.controls['email']?.errors && companyForm.controls['email']?.touched) { 
-            <div class="error">Please enter a valid email address.</div>
-          }
-        </div>
-
-        <div class="form-group">
-          <label for="website">Website:</label>
-          <input id="website" formControlName="website" type="text" />
-          @if (companyForm.controls['website']?.errors) {
-            <div class="error">Please enter a valid website URL.</div>
-          }
-        </div>
-
-        <div class="form-group">
-          <label for="phone">Phone Number:</label>
-          <input id="phone" formControlName="phoneNumber" type="number" />
-
-          @if (
-            companyForm.controls['phoneNumber']?.errors &&
-            companyForm.controls['phoneNumber']?.touched
-          ) {
-            <div class="error">Please enter a valid phone number.</div>
-          }
-        </div>
-
-        <div class="form-group">
+        <div class="form-group message-field">
           <label for="message">Message:</label>
           <textarea id="message" formControlName="message" type="text"></textarea>
         </div>
 
         <div formArrayName="projects">
+          <div class="projects-header">
+            <div>
+              <span>Projects</span>
+              <h3>Project List</h3>
+            </div>
+            <button class="outline-btn" type="button" (click)="addProjectForm()">Add Project</button>
+          </div>
+
           @for (item of projectGroupsArray.controls; track $index; let i = $index) {
             <div class="project-form" [formGroupName]="i">
-              <h3>Project {{ $index + 1 }}</h3>
-              <div class="form-group">
-                <label for="projectName-{{ $index }}">Name:</label>
-                <input id="projectName-{{ $index }}" formControlName="name" type="text" />
+              <div class="project-form-header">
+                <h3>Project {{ $index + 1 }}</h3>
+                <div class="project-form-actions">
+                  <button class="ghost-btn" type="button" (click)="clearProjectForm(i)">Clear</button>
+                  <button class="ghost-btn danger-btn" type="button" (click)="removeProjectForm(i)">Remove Project</button>
+                </div>
+              </div>
+              <div class="project-grid">
+                <div class="form-group">
+                  <label for="projectName-{{ $index }}">Name:</label>
+                  <input id="projectName-{{ $index }}" formControlName="name" type="text" />
 
-                @if (
-                  projectGroupsArray.at(i).get('name')?.hasError('required') &&
-                  projectGroupsArray.at(i).get('name')?.touched
-                ) {
-                  <div class="error">Project name is required.</div>
-                }
-                @if(
-                  projectGroupsArray.at(i).get('name')?.hasError('projectNameExists') &&
-                  projectGroupsArray.at(i).get('name')?.touched
-                ) {
-                  <div class="error">Project name must be unique.</div>
-                }
+                  @if (
+                    projectGroupsArray.at(i).get('name')?.hasError('required') &&
+                    projectGroupsArray.at(i).get('name')?.touched
+                  ) {
+                    <div class="error">Project name is required.</div>
+                  }
+                  @if(
+                    projectGroupsArray.at(i).get('name')?.hasError('projectNameExists') &&
+                    projectGroupsArray.at(i).get('name')?.touched
+                  ) {
+                    <div class="error">Project name must be unique.</div>
+                  }
+                </div>
+                <div class="form-group form-group-wide">
+                  <label for="projectDescription-{{ $index }}">Description:</label>
+                  <textarea
+                    id="projectDescription-{{ $index }}"
+                    formControlName="description"
+                    type="text"
+                  ></textarea>
+                  @if (
+                    projectGroupsArray.at(i).get('description')?.hasError('required') &&
+                    projectGroupsArray.at(i).get('description')?.touched
+                  ) {
+                    <div class="error">Project description is required.</div>
+                  }
+                </div>
+                <div class="form-group">
+                  <label for="projectStartDate-{{ $index }}">Start Date:</label>
+                  <input id="projectStartDate-{{ $index }}" formControlName="startDate" type="date" />
+                  @if (
+                    projectGroupsArray.at(i).get('startDate')?.hasError('required') &&
+                    projectGroupsArray.at(i).get('startDate')?.touched
+                  ) {
+                    <div class="error">Project start date is required.</div>
+                  }
+                </div>
+                <div class="form-group">
+                  <label for="projectEndDate-{{ $index }}">End Date:</label>
+                  <input id="projectEndDate-{{ $index }}" formControlName="endDate" type="date" />
+                  @if (
+                    projectGroupsArray.at(i).get('endDate')?.hasError('required') &&
+                    projectGroupsArray.at(i).get('endDate')?.touched
+                  ) {
+                    <div class="error">Project end date is required.</div>
+                  }
+                  @if (
+                    projectGroupsArray.at(i).errors?.['invalidDateRange'] &&
+                    (projectGroupsArray.at(i).get('startDate')?.touched ||
+                      projectGroupsArray.at(i).get('endDate')?.touched)
+                  ) {
+                    <div class="error">Invalid Date Range.</div>
+                  }
+                </div>
               </div>
-              <div class="form-group">
-                <label for="projectDescription-{{ $index }}">Description:</label>
-                <textarea
-                  id="projectDescription-{{ $index }}"
-                  formControlName="description"
-                  type="text"
-                ></textarea>
-                @if (
-                  projectGroupsArray.at(i).get('description')?.hasError('required') &&
-                  projectGroupsArray.at(i).get('description')?.touched
-                ) {
-                  <div class="error">Project description is required.</div>
-                }
-              </div>
-              <div class="form-group">
-                <label for="projectStartDate-{{ $index }}">Start Date:</label>
-                <input id="projectStartDate-{{ $index }}" formControlName="startDate" type="date" />
-                @if (
-                  projectGroupsArray.at(i).get('startDate')?.hasError('required') &&
-                  projectGroupsArray.at(i).get('startDate')?.touched
-                ) {
-                  <div class="error">Project start date is required.</div>
-                }
-              </div>
-              <div class="form-group">
-                <label for="projectEndDate-{{ $index }}">End Date:</label>
-                <input id="projectEndDate-{{ $index }}" formControlName="endDate" type="date" />
-                @if (
-                  projectGroupsArray.at(i).get('endDate')?.hasError('required') &&
-                  projectGroupsArray.at(i).get('endDate')?.touched
-                ) {
-                  <div class="error">Project end date is required.</div>
-                }
-                @if (
-                  projectGroupsArray.at(i).hasError('invalidDateRange') &&
-                  (projectGroupsArray.at(i).get('startDate')?.touched ||
-                    projectGroupsArray.at(i).get('endDate')?.touched)
-                ) {
-                  <div class="error">Invalid Date Range.</div>
-                }
-              </div>
-              <button type="button" (click)="clearProjectForm(i)">Clear</button>
-              <button type="button" (click)="removeProjectForm(i)">Remove Project</button>
             </div>
           }
         </div>
-        <button type="button" (click)="addProjectForm()">Add Project</button>
-        <button type="submit" [disabled]="companyForm.invalid">Submit</button>
+
+        <div class="form-footer">
+          <button class="primary-btn" type="submit" [disabled]="companyForm.invalid">Submit</button>
+          <button class="outline-btn" type="button" (click)="resetCompanyForm()">Reset Company Form</button>
+        </div>
         
         <!-- {{ companyForm.get('projects') }} -->
         <!-- <button type="button" (click)="onReset()">Reset</button> -->
       </form>
+    }
+    @if (companyFormData) {
+      <div class="submitted-data">
+        <h2>Submitted Company Data</h2>
+        <pre>{{ companyFormData | json }}</pre>
+      </div>
     }
   </div>
 </div>
