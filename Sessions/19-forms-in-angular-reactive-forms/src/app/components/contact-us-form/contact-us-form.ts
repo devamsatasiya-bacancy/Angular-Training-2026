@@ -11,6 +11,7 @@ import { JsonPipe } from '@angular/common';
 import {
   dateValidator,
   indiaPhoneValidator,
+  noWhitespaceValidator,
   uniqueProjectNameValidator,
 } from '../../validators/form-validators';
 
@@ -83,19 +84,22 @@ export class ContactUsForm implements OnInit {
   }
   initCompanyForm(): void {
     this.companyForm = new FormGroup({
-      name: new FormControl(this.defaultCompanyDetails.name, [Validators.required]),
+      name: new FormControl(this.defaultCompanyDetails.name, [Validators.required , noWhitespaceValidator]),
       email: new FormControl(this.defaultCompanyDetails.email, [
         Validators.required,
         Validators.email,
+        noWhitespaceValidator,
       ]),
       website: new FormControl(this.defaultCompanyDetails.website, [
         Validators.required,
-        Validators.pattern(/^(https?:\/\/|www\.)/),
+        Validators.pattern(/^(https?:\/\/|www\.)/)
+, noWhitespaceValidator
       ]),
       // TODO:  add custom validator to validate phone number based on country code selected.
       phoneNumber: new FormControl(this.defaultCompanyDetails.phoneNumber, [
         Validators.required,
         indiaPhoneValidator(),
+        noWhitespaceValidator
       ]),
       projects: new FormArray([]),
       message: new FormControl(this.defaultCompanyDetails.message),
@@ -106,12 +110,12 @@ export class ContactUsForm implements OnInit {
     return new FormGroup(
       {
         name: new FormControl('', {
-          validators: [Validators.required],
+          validators: [Validators.required , noWhitespaceValidator],
           asyncValidators: [uniqueProjectNameValidator(this.projectGroupsArray.value)],
           updateOn: 'blur',
         }),
         description: new FormControl('', {
-          validators: [Validators.required],
+          validators: [Validators.required , noWhitespaceValidator],
         }),
         startDate: new FormControl(new Date().toISOString().split('T')[0], [Validators.required]),
         endDate: new FormControl('', [Validators.required]),

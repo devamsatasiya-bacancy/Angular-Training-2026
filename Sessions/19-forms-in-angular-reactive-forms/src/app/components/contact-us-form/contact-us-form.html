@@ -14,6 +14,9 @@
             @if (companyForm.controls['name']?.errors && companyForm.controls['name']?.touched) {
               <div class="error">Name is required.</div>
             }
+            @if (companyForm.controls['name']?.hasError('whitespace')) {
+              <div class="error">Name cannot be empty or contain only whitespace.</div>
+            }
           </div>
 
           <div class="form-group">
@@ -22,6 +25,9 @@
             @if (companyForm.controls['email']?.errors && companyForm.controls['email']?.touched) {
               <div class="error">Please enter a valid email address.</div>
             }
+              @if (companyForm.controls['email']?.hasError('whitespace')) {
+                <div class="error">Email cannot be empty or contain only whitespace.</div>
+              }
           </div>
 
           <div class="form-group">
@@ -29,6 +35,9 @@
             <input id="website" formControlName="website" type="text" />
             @if (companyForm.controls['website']?.errors) {
               <div class="error">Please enter a valid website URL.</div>
+            }
+            @if (companyForm.controls['website']?.hasError('whitespace')) {
+              <div class="error">Website URL cannot be empty or contain only whitespace.</div>
             }
           </div>
 
@@ -80,16 +89,20 @@
                   <input id="projectName-{{ $index }}" formControlName="name" type="text" />
 
                   @if (
-                    projectGroupsArray.at(i).get('name')?.hasError('required') &&
-                    projectGroupsArray.at(i).get('name')?.touched
+                    item.get('name')?.hasError('required') &&
+                    item.get('name')?.touched
                   ) {
                     <div class="error">Project name is required.</div>
                   }
                   @if(
-                    projectGroupsArray.at(i).get('name')?.hasError('projectNameExists') &&
-                    projectGroupsArray.at(i).get('name')?.touched
+                    item.get('name')?.hasError('projectNameExists') &&
+                    item.get('name')?.touched
                   ) {
                     <div class="error">Project name must be unique.</div>
+                  }
+                  @if (item.get('name')?.hasError('whitespace') &&
+                    item.get('name')?.touched) {
+                    <div class="error">Project name cannot be empty or contain only whitespace.</div>
                   }
                 </div>
                 <div class="form-group form-group-wide">
@@ -100,18 +113,23 @@
                     type="text"
                   ></textarea>
                   @if (
-                    projectGroupsArray.at(i).get('description')?.hasError('required') &&
-                    projectGroupsArray.at(i).get('description')?.touched
+                    item.get('description')?.hasError('required') &&
+                    item.get('description')?.touched
                   ) {
                     <div class="error">Project description is required.</div>
                   }
+                  @if (item.get('description')?.hasError('whitespace') &&
+                    item.get('description')?.touched) {
+                    <div class="error">Project description cannot be empty or contain only whitespace.</div>
+                  }
+
                 </div>
                 <div class="form-group">
                   <label for="projectStartDate-{{ $index }}">Start Date:</label>
                   <input id="projectStartDate-{{ $index }}" formControlName="startDate" type="date" />
                   @if (
-                    projectGroupsArray.at(i).get('startDate')?.hasError('required') &&
-                    projectGroupsArray.at(i).get('startDate')?.touched
+                    item.get('startDate')?.hasError('required') &&
+                    item.get('startDate')?.touched
                   ) {
                     <div class="error">Project start date is required.</div>
                   }
@@ -120,15 +138,15 @@
                   <label for="projectEndDate-{{ $index }}">End Date:</label>
                   <input id="projectEndDate-{{ $index }}" formControlName="endDate" type="date" />
                   @if (
-                    projectGroupsArray.at(i).get('endDate')?.hasError('required') &&
-                    projectGroupsArray.at(i).get('endDate')?.touched
+                    item.get('endDate')?.hasError('required') &&
+                    item.get('endDate')?.touched
                   ) {
                     <div class="error">Project end date is required.</div>
                   }
                   @if (
-                    projectGroupsArray.at(i).errors?.['invalidDateRange'] &&
-                    (projectGroupsArray.at(i).get('startDate')?.touched ||
-                      projectGroupsArray.at(i).get('endDate')?.touched)
+                    item.errors?.['invalidDateRange'] &&
+                    (item.get('startDate')?.touched ||
+                      item.get('endDate')?.touched)
                   ) {
                     <div class="error">Invalid Date Range.</div>
                   }

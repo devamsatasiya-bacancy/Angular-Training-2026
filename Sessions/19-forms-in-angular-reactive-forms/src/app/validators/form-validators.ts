@@ -37,3 +37,13 @@ export function indiaPhoneValidator() : ValidatorFn {
         return regex.test(value) ? null : { invalidPhone: true };
     };
 }
+
+// validator to check for empty or whitespace-only values in form controls
+export function noWhitespaceValidator(control: AbstractControl): ValidationErrors | null {
+    const value = control.value;
+    if (typeof value === 'string' && value.trim().length === 0) {
+        return { whitespace: true };
+    } else {
+        return null;
+    }
+}
