@@ -11,29 +11,35 @@
           <div class="form-group">
             <label for="name">Name:</label>
             <input id="name" formControlName="name" type="text" />
-            @if (companyForm.controls['name']?.errors && companyForm.controls['name']?.touched) {
-              <div class="error">Name is required.</div>
+            @if (companyForm.controls['name']?.hasError('required') && companyForm.controls['name']?.touched) {
+              <div class="error">Company name is required.</div>
             }
             @if (companyForm.controls['name']?.hasError('whitespace')) {
-              <div class="error">Name cannot be empty or contain only whitespace.</div>
+              <div class="error">Company name cannot be empty or contain only whitespace.</div>
             }
           </div>
 
           <div class="form-group">
             <label for="email">Email:</label>
             <input id="email" formControlName="email" type="email" />
-            @if (companyForm.controls['email']?.errors && companyForm.controls['email']?.touched) {
+            @if (companyForm.controls['email']?.hasError('required') && companyForm.controls['email']?.touched) {
+              <div class="error">Email is required.</div>
+            }
+            @if (companyForm.controls['email']?.hasError('email')) {
               <div class="error">Please enter a valid email address.</div>
             }
-              @if (companyForm.controls['email']?.hasError('whitespace')) {
-                <div class="error">Email cannot be empty or contain only whitespace.</div>
-              }
+            @if (companyForm.controls['email']?.hasError('whitespace')) {
+              <div class="error">Email cannot be empty or contain only whitespace.</div>
+            }
           </div>
 
           <div class="form-group">
             <label for="website">Website:</label>
             <input id="website" formControlName="website" type="text" />
-            @if (companyForm.controls['website']?.errors) {
+            @if (companyForm.controls['website']?.hasError('required') && companyForm.controls['website']?.touched) {
+              <div class="error">Website URL is required.</div>
+            }
+            @if (companyForm.controls['website']?.hasError('pattern')) {
               <div class="error">Please enter a valid website URL.</div>
             }
             @if (companyForm.controls['website']?.hasError('whitespace')) {
