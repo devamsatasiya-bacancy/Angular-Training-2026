@@ -1,0 +1,12 @@
+@let users = users$ | async;
+
+@if (users) {
+  @for (user of users; track $index) {
+    <app-user-profile [user]="user"></app-user-profile>
+  }
+} @else {
+  <div class="loading-container">
+    <div class="loader"></div>
+    <p>Loading Users...</p>
+  </div>
+}

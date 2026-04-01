@@ -1,0 +1,28 @@
+<div class="user-component">
+  @if (user) {
+    <h2>User Profile</h2>
+    <p>Name: {{ user.name  }} </p>
+    <p>Email: {{ user.email }}</p>
+    <div>Salary in {{ currentCurrency }}
+        <select name="currency" [(ngModel)]="currentCurrency">
+            <option value="USD">USD</option>
+            <option value="INR">INR</option>
+                <option value="EUR">EUR</option>
+                <option value="JPY">JPY</option>
+        </select>
+    </div>
+
+    <p>Salary: {{ user.salary | currencyConvert : currentCurrency }}</p>
+    <p>Joining Date: {{ user.joiningDate | date }}</p>
+    <p>
+      Address:
+      {{
+        user.address.street + ', ' + user.address.city + ', ' + user.address.state + ', ' + user.address.zipCode 
+          |uppercase| textEllipsize: 20 
+      }}
+    </p>
+    <p>
+        Adhar Number: {{ user.adharNumber | adharNumberEllipsize: 4 : 'XXXX ' }}
+    </p>
+  }
+</div>
