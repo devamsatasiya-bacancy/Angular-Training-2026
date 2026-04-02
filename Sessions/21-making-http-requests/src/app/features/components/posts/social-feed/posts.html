@@ -1,0 +1,68 @@
+<section aria-labelledby="posts-heading">
+  <h1 id="posts-heading">Posts</h1>
+
+  @if (isAuthenticated()) {
+    <p><a routerLink="/posts/create">Create a new post</a></p>
+  } @else {
+    <p>Login to create a post.</p>
+    <p><a routerLink="/login">Go to login</a></p>
+  }
+
+  @if (posts().length) {
+    <ul>
+      @for (post of posts(); track post.id) {
+        <li>
+          @if (isEditing(post.id)) {
+            <div class="edit-form-container">
+              <form [formGroup]="editForm" (ngSubmit)="saveEdit(post.id)">
+                <div>
+                  <label for="edit-title-{{ post.id }}">Title</label>
+                  <input
+                    id="edit-title-{{ post.id }}"
+                    type="text"
+                    formControlName="title"
+                    required
+                  />
+                  @if (editForm.controls.title.invalid && editForm.controls.title.touched) {
+                    <p>Title is required.</p>
+                  }
+                </div>
+
+                <div>
+                  <label for="edit-content-{{ post.id }}">Content</label>
+                  <textarea
+                    id="edit-content-{{ post.id }}"
+                    formControlName="content"
+                    rows="4"
+                    required
+                  ></textarea>
+                  @if (editForm.controls.content.invalid && editForm.controls.content.touched) {
+                    <p>Content is required.</p>
+                  }
+                </div>
+
+                <div>
+                  <button type="submit">Save</button>
+                  <button type="button" (click)="cancelEdit()">Cancel</button>
+                </div>
+              </form>
+            </div>
+          } @else {
+            <app-social-post
+              [post]="post"
+              [isEditing]="isEditing(post.id)"
+              [isAuthenticated]="isAuthenticated()"
+              [currentUserName]="currentUser()?.name"
+              (editClicked)="startEdit($event)"
+              (deleteClicked)="deletePost($event)"
+              (likeClicked)="handleLike($event)"
+              (dislikeClicked)="handleDislike($event)"
+            />
+          }
+        </li>
+      }
+    </ul>
+  } @else {
+    <p>No posts available.</p>
+  }
+</section>
