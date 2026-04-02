@@ -1,0 +1,89 @@
+header {
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  color: white;
+  padding: 1.5rem 2rem;
+  box-shadow: var(--shadow-lg);
+  margin-bottom: 2rem;
+
+  h1 {
+    font-size: 1.875rem;
+    margin-bottom: 1rem;
+    font-weight: 700;
+  }
+
+  nav {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+
+    a {
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 500;
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-md);
+      transition: all 0.2s ease;
+      text-decoration: none;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.15);
+        color: white;
+        text-decoration: none;
+      }
+
+      &.active {
+        background-color: rgba(255, 255, 255, 0.2);
+        color: white;
+      }
+    }
+  }
+
+  p {
+    color: rgba(255, 255, 255, 0.95);
+    font-size: 0.95rem;
+    margin-bottom: 0.5rem;
+  }
+
+  button {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    margin-top: 0.5rem;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.3);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+  }
+}
+
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem 2rem;
+}
+
+@media (max-width: 768px) {
+  header {
+    padding: 1rem 1.5rem;
+
+    h1 {
+      font-size: 1.5rem;
+    }
+
+    nav {
+      gap: 1rem;
+
+      a {
+        padding: 0.4rem 0.75rem;
+        font-size: 0.9rem;
+      }
+    }
+  }
+
+  main {
+    padding: 0 1rem 1rem;
+  }
+}

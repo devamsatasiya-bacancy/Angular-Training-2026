@@ -10,7 +10,7 @@ import { Toast } from '../../../../shared/services/toast';
   selector: 'app-create-post',
   imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './create-post.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './create-post.scss',
 })
 export class CreatePost implements PendingChangesComponent {
   private readonly formBuilder = inject(FormBuilder);

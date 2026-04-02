@@ -16,6 +16,7 @@ export const routes: Routes = [
   {
     path: 'posts',
     canActivate: [authGuard],
+    canActivateChild: [authGuard],
     children: [
       {
         path: '',
@@ -23,6 +24,7 @@ export const routes: Routes = [
         resolve: {
           posts: postsResolver,
         },
+        
       },
       {
         path: 'create',

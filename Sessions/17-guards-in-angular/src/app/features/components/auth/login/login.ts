@@ -8,7 +8,7 @@ import { Toast } from '../../../../shared/services/toast';
   selector: 'app-login',
   imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './login.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './login.scss',
 })
 export class Login {
   private readonly formBuilder = inject(FormBuilder);

@@ -8,7 +8,7 @@ import { Auth } from '../../../../core/services/auth';
   selector: 'app-posts',
   imports: [RouterLink, DatePipe],
   templateUrl: './posts.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './posts.scss',
 })
 export class Posts {
   private readonly route = inject(ActivatedRoute);

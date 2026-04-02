@@ -6,7 +6,7 @@ import { Toast } from '../../services/toast';
   selector: 'app-toast',
   imports: [TitleCasePipe],
   templateUrl: './toast.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  styleUrl: './toast.scss',
 })
 export class ToastComponent {
   protected readonly toastService = inject(Toast);
