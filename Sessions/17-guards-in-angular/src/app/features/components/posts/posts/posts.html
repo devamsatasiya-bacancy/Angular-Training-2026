@@ -13,10 +13,52 @@
       @for (post of posts(); track post.id) {
         <li>
           <article>
-            <h2>{{ post.title }}</h2>
-            <p>{{ post.content }}</p>
-            <p>By {{ post.authorName }}</p>
-            <p>{{ post.createdAt | date: 'medium' }}</p>
+            @if (isEditing(post.id)) {
+              <form [formGroup]="editForm" (ngSubmit)="saveEdit(post.id)">
+                <div>
+                  <label for="edit-title-{{ post.id }}">Title</label>
+                  <input
+                    id="edit-title-{{ post.id }}"
+                    type="text"
+                    formControlName="title"
+                    required
+                  />
+                  @if (editForm.controls.title.invalid && editForm.controls.title.touched) {
+                    <p>Title is required.</p>
+                  }
+                </div>
+
+                <div>
+                  <label for="edit-content-{{ post.id }}">Content</label>
+                  <textarea
+                    id="edit-content-{{ post.id }}"
+                    formControlName="content"
+                    rows="4"
+                    required
+                  ></textarea>
+                  @if (editForm.controls.content.invalid && editForm.controls.content.touched) {
+                    <p>Content is required.</p>
+                  }
+                </div>
+
+                <div>
+                  <button type="submit">Save</button>
+                  <button type="button" (click)="cancelEdit()">Cancel</button>
+                </div>
+              </form>
+            } @else {
+              <h2>{{ post.title }}</h2>
+              <p>{{ post.content }}</p>
+              <p>By {{ post.authorName }}</p>
+              <p>{{ post.createdAt | date: 'medium' }}</p>
+
+              @if (isAuthenticated() && currentUser()?.name === post.authorName) {
+                <div>
+                  <button type="button" (click)="startEdit(post)">Edit</button>
+                  <button type="button" (click)="deletePost(post.id)">Delete</button>
+                </div>
+              }
+            }
           </article>
         </li>
       }

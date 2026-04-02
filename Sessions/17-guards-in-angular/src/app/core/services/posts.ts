@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject, signal } from '@angular/core';
-import { Observable, map, tap } from 'rxjs';
+import { Observable, map, of, tap } from 'rxjs';
 import { CreatePostPayload, Post } from '../models/post.model';
 
 interface FirebasePost {
@@ -19,20 +19,20 @@ interface FirebaseResponse {
 })
 export class Posts {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = 'https://social-media-app-test-ng/api/posts.json';
+  private readonly apiUrl = 'https://social-media-app-test-ng-default-rtdb.asia-southeast1.firebasedatabase.app/posts';
   private readonly postsState = signal<Post[]>([]);
 
   readonly posts = this.postsState.asReadonly();
 
   getPosts(): Observable<Post[]> {
-    return this.http.get<FirebaseResponse>(this.apiUrl).pipe(
+    return this.http.get<FirebaseResponse>(`${this.apiUrl}.json`).pipe(
       map((response) => this.transformFirebaseResponse(response)),
       tap((posts) => this.postsState.set(posts)),
     );
   }
 
   getPostById(id: string): Observable<Post | null> {
-    const url = `https://social-media-app-test-ng/api/posts/${id}.json`;
+    const url = `${this.apiUrl}/${id}.json`;
     return this.http.get<FirebasePost | null>(url).pipe(
       map((response) => {
         if (!response) {
@@ -61,7 +61,7 @@ export class Posts {
       createdAt: new Date().toISOString(),
     };
 
-    return this.http.post<{ name: string }>(this.apiUrl, newPostData).pipe(
+    return this.http.post<{ name: string }>(`${this.apiUrl}.json`, newPostData).pipe(
       map((response) => ({
         id: response.name,
         ...newPostData,
@@ -73,7 +73,7 @@ export class Posts {
   }
 
   updatePost(id: string, payload: Partial<CreatePostPayload>): Observable<Post> {
-    const url = `https://social-media-app-test-ng/api/posts/${id}.json`;
+    const url = `${this.apiUrl}/${id}.json`;
     const updateData: Partial<FirebasePost> = {};
 
     if (payload.title !== undefined) {
@@ -100,7 +100,7 @@ export class Posts {
   }
 
   deletePost(id: string): Observable<void> {
-    const url = `https://social-media-app-test-ng/api/posts/${id}.json`;
+    const url = `${this.apiUrl}/${id}.json`;
     return this.http.delete<null>(url).pipe(
       tap(() => {
         this.postsState.update((posts) => posts.filter((post) => post.id !== id));

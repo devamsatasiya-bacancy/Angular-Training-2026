@@ -50,7 +50,8 @@ export class CreatePost implements PendingChangesComponent {
           authorName: currentUser.name,
         })
         .subscribe({
-          next: () => {
+          next: (value) => {
+            console.log("POST CREATED ....", value);
             this.hasSaved = true;
             this.createPostForm.markAsPristine();
             this.toastService.show('Post created successfully.', 'success');
