@@ -2,19 +2,22 @@
   @if (!isEditing()) {
     <h2>{{ post().title }}</h2>
     <p>{{ post().content }}</p>
-    <p>By {{ post().authorName }}</p>
-    <p>{{ post().createdAt | date: 'medium' }}</p>
+    
+    <div class="post-meta">
+      <span>By {{ post().authorName }}</span>
+      <span>{{ post().createdAt | date: 'medium' }}</span>
+    </div>
 
     @if (isAuthenticated()) {
-      <div>
+      <div class="like-section">
         <button type="button" (click)="onLike()">👍 Like</button>
         <button type="button" (click)="onDislike()">👎 Dislike</button>
-        <span>{{ post().likes }} likes</span>
+        <span class="like-count">{{ post().likes }} likes</span>
       </div>
     }
 
     @if (isAuthenticated() && canEditOrDelete()) {
-      <div>
+      <div class="action-buttons">
         <button type="button" (click)="onEdit()">Edit</button>
         <button type="button" (click)="onDelete()">Delete</button>
       </div>

@@ -13,7 +13,7 @@
       @for (post of posts(); track post.id) {
         <li>
           @if (isEditing(post.id)) {
-            <article>
+            <div class="edit-form-container">
               <form [formGroup]="editForm" (ngSubmit)="saveEdit(post.id)">
                 <div>
                   <label for="edit-title-{{ post.id }}">Title</label>
@@ -46,7 +46,7 @@
                   <button type="button" (click)="cancelEdit()">Cancel</button>
                 </div>
               </form>
-            </article>
+            </div>
           } @else {
             <app-post
               [post]="post"

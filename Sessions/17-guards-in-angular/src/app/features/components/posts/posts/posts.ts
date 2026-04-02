@@ -11,6 +11,7 @@ import { Post } from '../post/post';
   selector: 'app-posts',
   imports: [RouterLink, ReactiveFormsModule, Post],
   templateUrl: './posts.html',
+  styleUrl: './posts.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Posts {

@@ -6,6 +6,7 @@ import { Post as PostModel } from '../../../../core/models/post.model';
   selector: 'app-post',
   imports: [DatePipe],
   templateUrl: './post.html',
+  styleUrl: './post.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Post {
