@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, input, output } from '@angular/core
 import { Post as PostModel } from '../../../../core/models/post.model';
 
 @Component({
-  selector: 'app-post',
+  selector: 'app-social-post',
   imports: [DatePipe],
   templateUrl: './post.html',
   styleUrl: './post.scss',

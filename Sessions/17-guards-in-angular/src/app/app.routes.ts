@@ -19,7 +19,7 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        loadComponent: () => import('./features/components/posts/posts/posts').then((m) => m.Posts),
+        loadComponent: () => import('./features/components/posts/social-feed/posts').then((m) => m.Posts),
         resolve: {
           posts: postsResolver,
         },

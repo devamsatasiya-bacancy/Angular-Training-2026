@@ -5,10 +5,10 @@ import { Post as PostModel } from '../../../../core/models/post.model';
 import { Auth } from '../../../../core/services/auth';
 import { Posts as PostsService } from '../../../../core/services/posts';
 import { Toast } from '../../../../shared/services/toast';
-import { Post } from '../post/post';
+import { Post } from '../social-post/post';
 
 @Component({
-  selector: 'app-posts',
+  selector: 'app-social-posts',
   imports: [RouterLink, ReactiveFormsModule, Post],
   templateUrl: './posts.html',
   styleUrl: './posts.scss',
