@@ -6,6 +6,7 @@ import { CreatePostPayload, Post } from '../models/post.model';
 interface FirebasePost {
   title: string;
   content: string;
+  likes: number;
   authorName: string;
   createdAt: string;
 }
@@ -31,6 +32,20 @@ export class Posts {
     );
   }
 
+  updateLike(postId:string, likes: number): Observable<Post> {
+    return this.http.patch<FirebasePost>(`${this.apiUrl}/${postId}.json`, { likes:likes }).pipe(
+      map((response) => ({
+        id: postId,
+        ...response,  
+      })),
+      tap((updatedPost) => {
+        this.postsState.update((posts) =>
+          posts.map((post) => (post.id === postId ? updatedPost : post)),
+        );
+      }),
+    );
+  }
+  
   getPostById(id: string): Observable<Post | null> {
     const url = `${this.apiUrl}/${id}.json`;
     return this.http.get<FirebasePost | null>(url).pipe(
@@ -57,6 +72,7 @@ export class Posts {
     const newPostData: FirebasePost = {
       title: normalizedTitle,
       content: normalizedContent,
+      likes: 0,
       authorName: payload.authorName,
       createdAt: new Date().toISOString(),
     };

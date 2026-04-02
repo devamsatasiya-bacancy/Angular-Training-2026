@@ -1,0 +1,23 @@
+<article>
+  @if (!isEditing()) {
+    <h2>{{ post().title }}</h2>
+    <p>{{ post().content }}</p>
+    <p>By {{ post().authorName }}</p>
+    <p>{{ post().createdAt | date: 'medium' }}</p>
+
+    @if (isAuthenticated()) {
+      <div>
+        <button type="button" (click)="onLike()">👍 Like</button>
+        <button type="button" (click)="onDislike()">👎 Dislike</button>
+        <span>{{ post().likes }} likes</span>
+      </div>
+    }
+
+    @if (isAuthenticated() && canEditOrDelete()) {
+      <div>
+        <button type="button" (click)="onEdit()">Edit</button>
+        <button type="button" (click)="onDelete()">Delete</button>
+      </div>
+    }
+  }
+</article>

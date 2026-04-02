@@ -2,14 +2,15 @@ import { DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { Post } from '../../../../core/models/post.model';
+import { Post as PostModel } from '../../../../core/models/post.model';
 import { Auth } from '../../../../core/services/auth';
 import { Posts as PostsService } from '../../../../core/services/posts';
 import { Toast } from '../../../../shared/services/toast';
+import { Post } from '../post/post';
 
 @Component({
   selector: 'app-posts',
-  imports: [RouterLink, DatePipe, ReactiveFormsModule],
+  imports: [RouterLink, DatePipe, ReactiveFormsModule, Post],
   templateUrl: './posts.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -20,7 +21,7 @@ export class Posts {
   private readonly toastService = inject(Toast);
   private readonly formBuilder = inject(FormBuilder);
 
-  readonly posts = computed(() => (this.route.snapshot.data['posts'] as Post[] | undefined) ?? []);
+  readonly posts = signal<PostModel[]>(this.route.snapshot.data['posts']);
   readonly isAuthenticated = this.authService.isAuthenticated;
   readonly currentUser = this.authService.currentUser;
   readonly editingPostId = signal<string | null>(null);
@@ -30,7 +31,7 @@ export class Posts {
     content: ['', [Validators.required]],
   });
 
-  startEdit(post: Post): void {
+  startEdit(post: PostModel): void {
     this.editingPostId.set(post.id);
     this.editForm.patchValue({
       title: post.title,
@@ -58,7 +59,9 @@ export class Posts {
         this.editingPostId.set(null);
         this.editForm.reset();
         // Refresh posts
-        this.postsService.getPosts().subscribe();
+        this.posts.update((posts) =>
+          posts.map((post) => (post.id === postId ? { ...post, ...formValue } : post)),
+        );
       },
       error: (error) => {
         const message = error instanceof Error ? error.message : 'Failed to update post.';
@@ -75,8 +78,8 @@ export class Posts {
     this.postsService.deletePost(postId).subscribe({
       next: () => {
         this.toastService.show('Post deleted successfully.', 'success');
-        // Refresh posts
-        this.postsService.getPosts().subscribe();
+
+        this.posts.update((posts) => posts.filter((post) => post.id !== postId));
       },
       error: (error) => {
         const message = error instanceof Error ? error.message : 'Failed to delete post.';
@@ -87,5 +90,43 @@ export class Posts {
 
   isEditing(postId: string): boolean {
     return this.editingPostId() === postId;
+  }
+
+  handleLike(postId: string): void {
+    const post = this.posts().find((p) => p.id === postId);
+    if (!post) return;
+
+    const newLikes = post.likes + 1;
+
+    this.postsService.updateLike(postId, newLikes).subscribe({
+      next: () => {
+        this.posts.update((posts) =>
+          posts.map((p) => (p.id === postId ? { ...p, likes: newLikes } : p)),
+        );
+      },
+      error: (error) => {
+        const message = error instanceof Error ? error.message : 'Failed to update likes.';
+        this.toastService.show(message, 'error');
+      },
+    });
+  }
+
+  handleDislike(postId: string): void {
+    const post = this.posts().find((p) => p.id === postId);
+    if (!post) return;
+
+    const newLikes = Math.max(0, post.likes - 1);
+
+    this.postsService.updateLike(postId, newLikes).subscribe({
+      next: () => {
+        this.posts.update((posts) =>
+          posts.map((p) => (p.id === postId ? { ...p, likes: newLikes } : p)),
+        );
+      },
+      error: (error) => {
+        const message = error instanceof Error ? error.message : 'Failed to update likes.';
+        this.toastService.show(message, 'error');
+      },
+    });
   }
 }
