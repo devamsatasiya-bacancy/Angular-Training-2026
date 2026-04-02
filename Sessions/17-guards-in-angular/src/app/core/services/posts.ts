@@ -1,34 +1,52 @@
-import { Injectable, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Injectable, inject, signal } from '@angular/core';
+import { Observable, map, tap } from 'rxjs';
 import { CreatePostPayload, Post } from '../models/post.model';
+
+interface FirebasePost {
+  title: string;
+  content: string;
+  authorName: string;
+  createdAt: string;
+}
+
+interface FirebaseResponse {
+  [key: string]: FirebasePost;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class Posts {
-  private readonly postsState = signal<Post[]>([
-    {
-      id: 1,
-      title: 'Welcome Post',
-      content: 'This is the first post in the social app.',
-      authorName: 'System',
-      createdAt: new Date().toISOString(),
-    },
-    {
-      id: 2,
-      title: 'Angular Guards',
-      content: 'Resolvers fetch data before a route loads, and guards protect access.',
-      authorName: 'Admin',
-      createdAt: new Date().toISOString(),
-    },
-  ]);
+  private readonly http = inject(HttpClient);
+  private readonly apiUrl = 'https://social-media-app-test-ng/api/posts.json';
+  private readonly postsState = signal<Post[]>([]);
 
   readonly posts = this.postsState.asReadonly();
 
-  getPosts(): Post[] {
-    return [...this.postsState()];
+  getPosts(): Observable<Post[]> {
+    return this.http.get<FirebaseResponse>(this.apiUrl).pipe(
+      map((response) => this.transformFirebaseResponse(response)),
+      tap((posts) => this.postsState.set(posts)),
+    );
   }
 
-  createPost(payload: CreatePostPayload): Post {
+  getPostById(id: string): Observable<Post | null> {
+    const url = `https://social-media-app-test-ng/api/posts/${id}.json`;
+    return this.http.get<FirebasePost | null>(url).pipe(
+      map((response) => {
+        if (!response) {
+          return null;
+        }
+        return {
+          id,
+          ...response,
+        };
+      }),
+    );
+  }
+
+  createPost(payload: CreatePostPayload): Observable<Post> {
     const normalizedTitle = payload.title.trim();
     const normalizedContent = payload.content.trim();
 
@@ -36,16 +54,71 @@ export class Posts {
       throw new Error('Title and content are required.');
     }
 
-    const newPost: Post = {
-      id: this.postsState().length + 1,
+    const newPostData: FirebasePost = {
       title: normalizedTitle,
       content: normalizedContent,
       authorName: payload.authorName,
       createdAt: new Date().toISOString(),
     };
 
-    this.postsState.update((posts) => [newPost, ...posts]);
+    return this.http.post<{ name: string }>(this.apiUrl, newPostData).pipe(
+      map((response) => ({
+        id: response.name,
+        ...newPostData,
+      })),
+      tap((newPost) => {
+        this.postsState.update((posts) => [newPost, ...posts]);
+      }),
+    );
+  }
 
-    return newPost;
+  updatePost(id: string, payload: Partial<CreatePostPayload>): Observable<Post> {
+    const url = `https://social-media-app-test-ng/api/posts/${id}.json`;
+    const updateData: Partial<FirebasePost> = {};
+
+    if (payload.title !== undefined) {
+      updateData.title = payload.title.trim();
+    }
+    if (payload.content !== undefined) {
+      updateData.content = payload.content.trim();
+    }
+    if (payload.authorName !== undefined) {
+      updateData.authorName = payload.authorName;
+    }
+
+    return this.http.patch<FirebasePost>(url, updateData).pipe(
+      map((response) => ({
+        id,
+        ...response,
+      })),
+      tap((updatedPost) => {
+        this.postsState.update((posts) =>
+          posts.map((post) => (post.id === id ? updatedPost : post)),
+        );
+      }),
+    );
+  }
+
+  deletePost(id: string): Observable<void> {
+    const url = `https://social-media-app-test-ng/api/posts/${id}.json`;
+    return this.http.delete<null>(url).pipe(
+      tap(() => {
+        this.postsState.update((posts) => posts.filter((post) => post.id !== id));
+      }),
+      map(() => undefined),
+    );
+  }
+
+  private transformFirebaseResponse(response: FirebaseResponse | null): Post[] {
+    if (!response) {
+      return [];
+    }
+
+    return Object.entries(response)
+      .map(([id, post]) => ({
+        id,
+        ...post,
+      }))
+      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   }
 }

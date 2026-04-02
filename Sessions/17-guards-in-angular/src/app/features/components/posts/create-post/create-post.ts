@@ -44,15 +44,23 @@ export class CreatePost implements PendingChangesComponent {
     }
 
     try {
-      this.postsService.createPost({
-        ...this.createPostForm.getRawValue(),
-        authorName: currentUser.name,
-      });
-
-      this.hasSaved = true;
-      this.createPostForm.markAsPristine();
-      this.toastService.show('Post created successfully.', 'success');
-      void this.router.navigate(['/posts']);
+      this.postsService
+        .createPost({
+          ...this.createPostForm.getRawValue(),
+          authorName: currentUser.name,
+        })
+        .subscribe({
+          next: () => {
+            this.hasSaved = true;
+            this.createPostForm.markAsPristine();
+            this.toastService.show('Post created successfully.', 'success');
+            void this.router.navigate(['/posts']);
+          },
+          error: (error) => {
+            const message = error instanceof Error ? error.message : 'Unable to create post.';
+            this.toastService.show(message, 'error');
+          },
+        });
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Unable to create post.';
       this.toastService.show(message, 'error');
