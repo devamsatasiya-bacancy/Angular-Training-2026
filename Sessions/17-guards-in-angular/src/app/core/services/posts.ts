@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, inject, signal } from '@angular/core';
-import { Observable, map, of, tap } from 'rxjs';
+import { Observable, map, tap } from 'rxjs';
 import { CreatePostPayload, Post } from '../models/post.model';
 
 interface FirebasePost {

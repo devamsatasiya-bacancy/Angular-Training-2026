@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Auth } from '../../../../core/services/auth';
 import { Toast } from '../../../../shared/services/toast';
 
@@ -15,8 +15,6 @@ export class Login {
   private readonly authService = inject(Auth);
   private readonly toastService = inject(Toast);
   private readonly router = inject(Router);
-  private readonly route = inject(ActivatedRoute);
-
   readonly loginForm = this.formBuilder.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],

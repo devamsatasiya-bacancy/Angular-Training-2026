@@ -1,4 +1,3 @@
-import { DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, RouterLink } from '@angular/router';
@@ -10,7 +9,7 @@ import { Post } from '../post/post';
 
 @Component({
   selector: 'app-posts',
-  imports: [RouterLink, DatePipe, ReactiveFormsModule, Post],
+  imports: [RouterLink, ReactiveFormsModule, Post],
   templateUrl: './posts.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
