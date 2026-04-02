@@ -14,7 +14,6 @@ export const authGuard: CanActivateFn = (route, state) => {
 
   toastService.show('Please log in to create a post.', 'error');
 
-  return router.createUrlTree(['/login'], {
-    queryParams: { redirectTo: state.url },
-  });
+  return router.createUrlTree(['/login']);
 };
+ 
