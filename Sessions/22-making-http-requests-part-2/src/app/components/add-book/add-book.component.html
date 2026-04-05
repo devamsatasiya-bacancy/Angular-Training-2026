@@ -1,0 +1,200 @@
+<div class="add-book-container">
+  <div class="header">
+    <h1>Add New Book</h1>
+    <p class="text-muted">Fill in the details to add a book to the library</p>
+  </div>
+
+  <!-- Success Message -->
+  @if (uploadSuccess()) {
+    <div class="success-banner">
+      <strong>✓ Success!</strong> Book added successfully. Redirecting...
+    </div>
+  }
+
+  <!-- Form Error Display -->
+  @if (formError()) {
+    <div class="error-banner">
+      <div class="error-content">
+        <strong>Error:</strong> {{ formError() }}
+        <button class="error-close" (click)="formError.set(null)">×</button>
+      </div>
+    </div>
+  }
+
+  <!-- Upload Progress -->
+  @if (uploadProgress()) {
+    <div class="progress-section card">
+      <h3>Upload Progress</h3>
+      <div class="progress-bar">
+        <div 
+          class="progress-fill" 
+          [style.width.%]="uploadProgress()!.percentage">
+        </div>
+      </div>
+      <p class="text-muted">
+        {{ uploadProgress()!.percentage }}% - 
+        {{ (uploadProgress()!.loaded / 1024 / 1024).toFixed(2) }} MB / 
+        {{ (uploadProgress()!.total / 1024 / 1024).toFixed(2) }} MB
+      </p>
+    </div>
+  }
+
+  <!-- Add Book Form -->
+  <form [formGroup]="bookForm" (ngSubmit)="onSubmit()" class="book-form card">
+    <!-- Title -->
+    <div class="form-group">
+      <label for="title">Title <span class="required">*</span></label>
+      <input
+        id="title"
+        type="text"
+        class="input-field"
+        formControlName="title"
+        placeholder="Enter book title"
+        [class.error]="title?.invalid && title?.touched"
+      />
+      @if (title?.invalid && title?.touched) {
+        <div class="field-error">
+          @if (title?.errors?.['required']) {
+            <span>Title is required</span>
+          }
+          @if (title?.errors?.['minlength']) {
+            <span>Title must be at least 2 characters</span>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Category -->
+    <div class="form-group">
+      <label for="category">Category <span class="required">*</span></label>
+      <select
+        id="category"
+        class="input-field"
+        formControlName="category"
+        [class.error]="category?.invalid && category?.touched"
+      >
+        <option value="">Select a category</option>
+        @for (cat of categories; track cat) {
+          <option [value]="cat">{{ cat }}</option>
+        }
+      </select>
+      @if (category?.invalid && category?.touched) {
+        <div class="field-error">
+          <span>Category is required</span>
+        </div>
+      }
+    </div>
+
+    <!-- Price -->
+    <div class="form-group">
+      <label for="price">Price (USD) <span class="required">*</span></label>
+      <input
+        id="price"
+        type="number"
+        class="input-field"
+        formControlName="price"
+        placeholder="0.00"
+        step="0.01"
+        min="0"
+        [class.error]="price?.invalid && price?.touched"
+      />
+      @if (price?.invalid && price?.touched) {
+        <div class="field-error">
+          @if (price?.errors?.['required']) {
+            <span>Price is required</span>
+          }
+          @if (price?.errors?.['min']) {
+            <span>Price must be greater than 0</span>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- File Upload -->
+    <div class="form-group">
+      <label for="file">Book Cover / File (Optional)</label>
+      <div class="file-upload-area">
+        @if (!selectedFile()) {
+          <div class="file-input-wrapper">
+            <input
+              id="file"
+              type="file"
+              (change)="onFileSelected($event)"
+              accept="image/*,.pdf"
+              class="file-input"
+            />
+            <label for="file" class="file-label">
+              <span class="file-icon">📁</span>
+              <span>Click to select file</span>
+              <span class="text-muted">Images or PDF (Max 5MB)</span>
+            </label>
+          </div>
+        } @else {
+          <div class="file-selected">
+            <!-- Image Preview -->
+            @if (filePreviewUrl()) {
+              <div class="file-preview">
+                <img [src]="filePreviewUrl()" alt="Preview" />
+              </div>
+            }
+            
+            <!-- File Info -->
+            <div class="file-info">
+              <span class="file-name">{{ selectedFile()!.name }}</span>
+              <span class="file-size text-muted">
+                {{ (selectedFile()!.size / 1024 / 1024).toFixed(2) }} MB
+              </span>
+            </div>
+            
+            <button type="button" class="btn-remove" (click)="removeFile()">
+              Remove
+            </button>
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- Form Actions -->
+    <div class="form-actions">
+      <button
+        type="submit"
+        class="btn-primary"
+        [disabled]="isUploading() || uploadSuccess()"
+      >
+        @if (isUploading()) {
+          <span>Adding Book...</span>
+        } @else if (uploadSuccess()) {
+          <span>✓ Book Added!</span>
+        } @else {
+          <span>Add Book</span>
+        }
+      </button>
+      
+      <button
+        type="button"
+        class="btn-secondary"
+        (click)="resetForm()"
+        [disabled]="isUploading()"
+      >
+        Reset
+      </button>
+
+      <a routerLink="/books" class="btn-secondary">
+        Back to List
+      </a>
+    </div>
+  </form>
+
+  <!-- Feature Info -->
+  <div class="card info-section">
+    <h3>Advanced Features Enabled</h3>
+    <ul>
+      <li>✓ File upload with preview (images only)</li>
+      <li>✓ Form validation with error messages</li>
+      <li>✓ 30-second timeout protection</li>
+      <li>✓ Automatic retry on failure (3 attempts)</li>
+      <li>✓ File size validation (max 5MB)</li>
+      <li>✓ File type validation (images & PDF)</li>
+    </ul>
+  </div>
+</div>

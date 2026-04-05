@@ -7,9 +7,23 @@
 .header {
   margin-bottom: 2rem;
 
+  .header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
   h1 {
     font-size: 3rem;
     margin-bottom: 0.5rem;
+  }
+
+  .btn-primary {
+    white-space: nowrap;
+    text-decoration: none;
+    display: inline-block;
   }
 }
 

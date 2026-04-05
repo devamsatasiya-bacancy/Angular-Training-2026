@@ -30,7 +30,6 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
       const normalizedError = {
         message: errorMessage,
         status: error.status,
-        statusText: error.statusText,
         url: error.url,
         originalError: error
       };
