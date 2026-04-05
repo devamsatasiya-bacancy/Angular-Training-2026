@@ -33,20 +33,39 @@
       <button class="btn-primary" (click)="testLoadingService()">Test Loading Service</button>
       <button class="btn-primary" (click)="testLoggingService()">Test Logging Service</button>
     </div>
+  </div>
+
+  <!-- Interceptor Tests -->
+  <div class="card" style="margin-bottom: 2rem;">
+    <h2 style="font-size: 1.5rem; margin-bottom: 1rem;">Test HTTP Interceptors</h2>
+    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+      <button class="btn-secondary" (click)="testInterceptors()">Make API Call (Test All Interceptors)</button>
+    </div>
     <p class="text-muted" style="margin-top: 1rem;">
-      Open browser console to see logging service output
+      This will trigger: Logging Interceptor → Loading Interceptor → Error Interceptor
+      <br>
+      Check console for detailed logs and watch the loading indicator above
     </p>
   </div>
 
   <!-- Status Info -->
   <div class="card">
-    <h2 style="font-size: 1.5rem; margin-bottom: 1rem;">Core Services Ready</h2>
+    <h2 style="font-size: 1.5rem; margin-bottom: 1rem;">Core Services & Interceptors Ready</h2>
+    
+    <h3 style="font-size: 1.25rem; margin: 1rem 0 0.5rem 0;">Services:</h3>
     <ul style="list-style: none; padding: 0;">
       <li style="padding: 0.5rem 0;">✓ ErrorService - Global error state management</li>
       <li style="padding: 0.5rem 0;">✓ LoadingService - Request loading indicators</li>
       <li style="padding: 0.5rem 0;">✓ LoggingService - HTTP logging with timestamps</li>
       <li style="padding: 0.5rem 0;">✓ NetworkStatusService - Online/offline detection</li>
       <li style="padding: 0.5rem 0;">✓ BookService - HTTP operations for books</li>
+    </ul>
+
+    <h3 style="font-size: 1.25rem; margin: 1rem 0 0.5rem 0;">HTTP Interceptors:</h3>
+    <ul style="list-style: none; padding: 0;">
+      <li style="padding: 0.5rem 0;">✓ loggingInterceptor - Logs all HTTP requests/responses</li>
+      <li style="padding: 0.5rem 0;">✓ loadingInterceptor - Auto-manages loading state</li>
+      <li style="padding: 0.5rem 0;">✓ errorInterceptor - Catches & normalizes errors</li>
     </ul>
   </div>
 </div>
