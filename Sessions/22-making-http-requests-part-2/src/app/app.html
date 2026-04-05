@@ -1,73 +1,32 @@
-<div class="container" style="padding: 2rem 1rem;">
-  <h1 style="margin-bottom: 2rem; font-size: 3rem;">Book Manager</h1>
-
-  <!-- Network Status -->
-  <div style="margin-bottom: 2rem; padding: 1rem; background: var(--color-surface);">
-    <h2 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Network Status</h2>
-    @if (online$ | async) {
-      <p style="color: #10B981; font-weight: 600;">✓ Online</p>
-    } @else {
-      <p style="color: var(--color-primary); font-weight: 600;">✗ Offline</p>
-    }
-  </div>
-
-  <!-- Error Display -->
+<div class="app-container">
+  <!-- Global Error Display -->
   @if (error$ | async; as error) {
-    <div style="margin-bottom: 2rem; padding: 1rem; background: var(--color-primary); color: white;">
-      <strong>Error:</strong> {{ error }}
+    <div class="global-error">
+      <div class="container">
+        <strong>Error:</strong> {{ error }}
+        <button class="error-close" (click)="clearGlobalError()">×</button>
+      </div>
     </div>
   }
 
-  <!-- Loading Indicator -->
+  <!-- Global Loading Indicator -->
   @if (loading$ | async) {
-    <div style="margin-bottom: 2rem; padding: 1rem; background: var(--color-accent); color: white;">
-      <strong>Loading...</strong>
+    <div class="global-loading">
+      <div class="loading-spinner"></div>
+      <span>Loading...</span>
     </div>
   }
 
-  <!-- Service Tests -->
-  <div class="card" style="margin-bottom: 2rem;">
-    <h2 style="font-size: 1.5rem; margin-bottom: 1rem;">Test Services</h2>
-    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-      <button class="btn-primary" (click)="testErrorService()">Test Error Service</button>
-      <button class="btn-primary" (click)="testLoadingService()">Test Loading Service</button>
-      <button class="btn-primary" (click)="testLoggingService()">Test Logging Service</button>
+  <!-- Network Status Banner -->
+  @if (!(online$ | async)) {
+    <div class="network-offline">
+      <div class="container">
+        ⚠️ You are currently offline
+      </div>
     </div>
-  </div>
+  }
 
-  <!-- Interceptor Tests -->
-  <div class="card" style="margin-bottom: 2rem;">
-    <h2 style="font-size: 1.5rem; margin-bottom: 1rem;">Test HTTP Interceptors</h2>
-    <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
-      <button class="btn-secondary" (click)="testInterceptors()">Make API Call (Test All Interceptors)</button>
-    </div>
-    <p class="text-muted" style="margin-top: 1rem;">
-      This will trigger: Logging Interceptor → Loading Interceptor → Error Interceptor
-      <br>
-      Check console for detailed logs and watch the loading indicator above
-    </p>
-  </div>
-
-  <!-- Status Info -->
-  <div class="card">
-    <h2 style="font-size: 1.5rem; margin-bottom: 1rem;">Core Services & Interceptors Ready</h2>
-    
-    <h3 style="font-size: 1.25rem; margin: 1rem 0 0.5rem 0;">Services:</h3>
-    <ul style="list-style: none; padding: 0;">
-      <li style="padding: 0.5rem 0;">✓ ErrorService - Global error state management</li>
-      <li style="padding: 0.5rem 0;">✓ LoadingService - Request loading indicators</li>
-      <li style="padding: 0.5rem 0;">✓ LoggingService - HTTP logging with timestamps</li>
-      <li style="padding: 0.5rem 0;">✓ NetworkStatusService - Online/offline detection</li>
-      <li style="padding: 0.5rem 0;">✓ BookService - HTTP operations for books</li>
-    </ul>
-
-    <h3 style="font-size: 1.25rem; margin: 1rem 0 0.5rem 0;">HTTP Interceptors:</h3>
-    <ul style="list-style: none; padding: 0;">
-      <li style="padding: 0.5rem 0;">✓ loggingInterceptor - Logs all HTTP requests/responses</li>
-      <li style="padding: 0.5rem 0;">✓ loadingInterceptor - Auto-manages loading state</li>
-      <li style="padding: 0.5rem 0;">✓ errorInterceptor - Catches & normalizes errors</li>
-    </ul>
-  </div>
+  <!-- Main Content -->
+  <router-outlet />
 </div>
 
-<router-outlet />
