@@ -1,1 +1,124 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global Styles */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Manrope:wght@400;500;600;700&display=swap');
+
+:root {
+  --color-primary: #FF2A00;
+  --color-background: #FAFAFA;
+  --color-surface: #FFFFFF;
+  --color-text: #0B0F19;
+  --color-muted: #94A3B8;
+  --color-accent: #FF8A00;
+
+  --font-heading: 'Bebas Neue', sans-serif;
+  --font-body: 'Manrope', sans-serif;
+
+  --radius-pill: 9999px;
+  --radius-card: 0px;
+
+  --shadow-heavy: 0 20px 40px -5px rgba(255, 42, 0, 0.2);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-background);
+  color: var(--color-text);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  letter-spacing: 0.5px;
+  font-weight: 400;
+}
+
+button {
+  font-family: var(--font-body);
+  cursor: pointer;
+  border: none;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+input, textarea, select {
+  font-family: var(--font-body);
+  border: 1px solid var(--color-muted);
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: var(--color-primary);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  border-radius: var(--radius-card);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: #E02600;
+}
+
+.btn-secondary {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  border: 1px solid var(--color-muted);
+  border-radius: var(--radius-card);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.card {
+  background-color: var(--color-surface);
+  border-radius: var(--radius-card);
+  padding: 1.5rem;
+}
+
+.input-field {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--color-muted);
+  border-radius: var(--radius-card);
+  font-size: 1rem;
+}
+
+.input-field::placeholder {
+  color: var(--color-muted);
+}
+
+.text-error {
+  color: var(--color-primary);
+  font-size: 0.875rem;
+}
+
+.text-muted {
+  color: var(--color-muted);
+  font-size: 0.875rem;
+}
