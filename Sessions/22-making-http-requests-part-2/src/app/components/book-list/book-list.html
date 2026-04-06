@@ -102,9 +102,9 @@
               <span class="book-category">{{ book.category }}</span>
             </div>
             <div class="book-price">${{ book.price.toFixed(2) }}</div>
-            @if (book.fileName) {
+            @if (book.fileUrl) {
               <div class="book-file text-muted">
-                📎 {{ book.fileName }}
+                <img src="/assets/images/pexels-pixabay-461593.jpg"  [alt]="book.title" class="book-image" />
               </div>
             }
           </div>

@@ -1,4 +1,4 @@
 export const environment = {
-  production: true,
-  firebaseUrl: 'https://your-firebase-project.firebaseio.com/books.json'
+  production: false,
+  firebaseUrl: 'https://social-media-app-test-ng-default-rtdb.asia-southeast1.firebasedatabase.app/books-session22.json'
 };

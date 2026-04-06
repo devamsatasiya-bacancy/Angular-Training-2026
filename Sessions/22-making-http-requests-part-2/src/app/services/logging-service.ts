@@ -1,15 +1,7 @@
 import { Injectable } from '@angular/core';
+import { LogEntry } from '../models/log-entry';
 
-export interface LogEntry {
-  timestamp: Date;
-  type: 'request' | 'response' | 'error';
-  method?: string;
-  url?: string;
-  status?: number;
-  duration?: number;
-  message?: string;
-  data?: unknown;
-}
+
 
 @Injectable({
   providedIn: 'root'

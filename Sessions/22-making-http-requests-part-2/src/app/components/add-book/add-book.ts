@@ -4,16 +4,16 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { catchError, timeout, retry, throwError } from 'rxjs';
-import { BookService } from '../../services/book.service';
-import { ErrorService } from '../../services/error.service';
-import { Book, UploadProgress } from '../../models/book.model';
+import { BookService } from '../../services/book-service';
+import { ErrorService } from '../../services/error-service';
+import { Book, UploadProgress } from '../../models/book';
 
 @Component({
   selector: 'app-add-book',
   imports: [CommonModule, ReactiveFormsModule, RouterLink],
-  templateUrl: './add-book.component.html',
-  styleUrl: './add-book.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: './add-book.html',
+  styleUrl: './add-book.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddBookComponent implements OnDestroy {
   private fb = inject(FormBuilder);
@@ -22,7 +22,7 @@ export class AddBookComponent implements OnDestroy {
   private router = inject(Router);
 
   bookForm!: FormGroup;
-  
+
   selectedFile = signal<File | null>(null);
   filePreviewUrl = signal<string | null>(null);
   uploadProgress = signal<UploadProgress | null>(null);
@@ -41,7 +41,7 @@ export class AddBookComponent implements OnDestroy {
       title: ['', [Validators.required, Validators.minLength(2)]],
       category: ['', Validators.required],
       price: [null, [Validators.required, Validators.min(0.01)]],
-      file: [null]
+      file: [null],
     });
   }
 
@@ -61,7 +61,7 @@ export class AddBookComponent implements OnDestroy {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
-      
+
       const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'application/pdf'];
       if (!allowedTypes.includes(file.type)) {
         this.formError.set('Invalid file type. Only JPEG, PNG, GIF, and PDF are allowed.');
@@ -117,46 +117,49 @@ export class AddBookComponent implements OnDestroy {
       price: this.bookForm.value.price,
       fileName: this.selectedFile()?.name || undefined,
       fileUrl: this.filePreviewUrl() || undefined,
-      createdAt: new Date()
+      createdAt: new Date(),
     };
 
-    this.bookService.addBook(bookData).pipe(
-      timeout(30000),
-      retry({
-        count: 3,
-        delay: 1000
-      }),
-      catchError(err => {
-        this.isUploading.set(false);
-        
-        let errorMessage = 'Failed to add book';
-        
-        if (err.name === 'TimeoutError') {
-          errorMessage = 'Request timed out. The server took too long to respond.';
-        } else if (err.message) {
-          errorMessage = err.message;
-        }
-        
-        this.formError.set(errorMessage);
-        this.errorService.setError(errorMessage);
-        
-        return throwError(() => err);
-      })
-    ).subscribe({
-      next: (response) => {
-        console.log('✓ Book added successfully:', response);
-        
-        this.isUploading.set(false);
-        this.uploadSuccess.set(true);
-        
-        setTimeout(() => {
-          this.router.navigate(['/books']);
-        }, 2000);
-      },
-      error: (err) => {
-        console.error('✗ Failed to add book:', err);
-      }
-    });
+    this.bookService
+      .addBook(bookData)
+      .pipe(
+        timeout(30000),
+        retry({
+          count: 1,
+          delay: 1000,
+        }),
+        catchError((err) => {
+          this.isUploading.set(false);
+
+          let errorMessage = 'Failed to add book';
+
+          if (err.name === 'TimeoutError') {
+            errorMessage = 'Request timed out. The server took too long to respond.';
+          } else if (err.message) {
+            errorMessage = err.message;
+          }
+
+          this.formError.set(errorMessage);
+          this.errorService.setError(errorMessage);
+
+          return throwError(() => err);
+        }),
+      )
+      .subscribe({
+        next: (response) => {
+          console.log('✓ Book added successfully:', response);
+
+          this.isUploading.set(false);
+          this.uploadSuccess.set(true);
+
+          setTimeout(() => {
+            this.router.navigate(['/books']);
+          }, 2000);
+        },
+        error: (err) => {
+          console.error('✗ Failed to add book:', err);
+        },
+      });
   }
 
   resetForm(): void {

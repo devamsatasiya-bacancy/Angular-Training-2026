@@ -15,16 +15,6 @@ export interface BookQueryParams {
   maxPrice?: number;
 }
 
-export interface HttpErrorResponse {
-  error: {
-    message: string;
-  };
-  status: number;
-  statusText: string;
-  message: string;
-  url: string | null;
-}
-
 export interface UploadProgress {
   percentage: number;
   loaded: number;

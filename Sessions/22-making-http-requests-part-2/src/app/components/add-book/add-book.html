@@ -146,7 +146,7 @@
               </span>
             </div>
             
-            <button type="button" class="btn-remove" (click)="removeFile()">
+            <button type="button" class="btn-remove"  (click)="removeFile()">
               Remove
             </button>
           </div>
@@ -159,7 +159,7 @@
       <button
         type="submit"
         class="btn-primary"
-        [disabled]="isUploading() || uploadSuccess()"
+        [disabled]="isUploading() || uploadSuccess() || bookForm.invalid"
       >
         @if (isUploading()) {
           <span>Adding Book...</span>
@@ -184,17 +184,4 @@
       </a>
     </div>
   </form>
-
-  <!-- Feature Info -->
-  <div class="card info-section">
-    <h3>Advanced Features Enabled</h3>
-    <ul>
-      <li>✓ File upload with preview (images only)</li>
-      <li>✓ Form validation with error messages</li>
-      <li>✓ 30-second timeout protection</li>
-      <li>✓ Automatic retry on failure (3 attempts)</li>
-      <li>✓ File size validation (max 5MB)</li>
-      <li>✓ File type validation (images & PDF)</li>
-    </ul>
-  </div>
 </div>
