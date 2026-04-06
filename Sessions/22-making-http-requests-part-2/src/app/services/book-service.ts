@@ -2,14 +2,13 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Book } from '../models/book';
-import { environment } from '../../environments/environment';
-
+import { devEnvironment } from '../../environments/environment.development';
 @Injectable({
   providedIn: 'root',
 })
 export class BookService {
   private http = inject(HttpClient);
-  private apiUrl = environment.firebaseUrl;
+  private apiUrl = devEnvironment.firebaseUrl;
 
   getBooks(): Observable<{ [key: string]: Book }> {
     /*     
@@ -32,7 +31,7 @@ export class BookService {
   }
 
   addBook(book: Book): Observable<{ name: string }> {
-    return this.http.post<{ name: string }>(this.apiUrl, book, {});
+    return this.http.post<{ name: string }>(this.apiUrl, book);
   }
 
   getBookById(id: string): Observable<Book> {
