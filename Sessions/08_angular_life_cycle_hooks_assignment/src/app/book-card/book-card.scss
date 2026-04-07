@@ -7,19 +7,19 @@
   flex-direction: column;
 }
 
-.book-card__image {
+.book-card-image {
   width: 100%;
   height: 180px;
   object-fit: cover;
   display: block;
 }
 
-.book-card__body {
+.book-card-body {
   padding: 1rem 1.25rem 0.5rem;
   flex: 1;
 }
 
-.book-card__title {
+.book-card-title {
   font-family: var(--font-heading);
   font-size: 1.35rem;
   color: var(--color-text);
@@ -27,19 +27,19 @@
   margin-bottom: 0.25rem;
 }
 
-.book-card__author {
+.book-card-author {
   font-size: 0.875rem;
   color: var(--color-muted);
   margin-bottom: 0.25rem;
 }
 
-.book-card__price {
+.book-card-price {
   font-size: 0.8rem;
   color: var(--color-primary);
   font-weight: 700;
 }
 
-.book-card__actions {
+.book-card-actions {
   display: flex;
   gap: 0.5rem;
   padding: 0.75rem 1.25rem;
@@ -47,7 +47,7 @@
   border-top: 1px solid #f1f5f9;
 }
 
-.book-card__more {
+.book-card-more {
   padding: 0.75rem 1.25rem 1rem;
   font-size: 0.875rem;
   color: var(--color-muted);
