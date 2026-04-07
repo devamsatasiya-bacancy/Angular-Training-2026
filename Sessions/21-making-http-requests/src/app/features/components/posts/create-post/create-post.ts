@@ -43,7 +43,7 @@ export class CreatePost implements PendingChangesComponent {
       return;
     }
 
-    try {
+
       this.postsService
         .createPost({
           ...this.createPostForm.getRawValue(),
@@ -53,7 +53,6 @@ export class CreatePost implements PendingChangesComponent {
           next: (value) => {
             console.log("POST CREATED ....", value);
             this.hasSaved = true;
-            this.createPostForm.markAsPristine();
             this.toastService.show('Post created successfully.', 'success');
             void this.router.navigate(['/posts']);
           },
@@ -62,10 +61,6 @@ export class CreatePost implements PendingChangesComponent {
             this.toastService.show(message, 'error');
           },
         });
-    } catch (error) {
-      const message = error instanceof Error ? error.message : 'Unable to create post.';
-      this.toastService.show(message, 'error');
-    }
   }
 
   canDeactivate(): boolean {

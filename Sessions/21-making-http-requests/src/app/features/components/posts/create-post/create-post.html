@@ -6,14 +6,20 @@
     <div>
       <label for="title">Title</label>
       <input id="title" type="text" formControlName="title" />
+      @if (createPostForm.get('title')?.invalid && createPostForm.get('title')?.touched) {
+        <p class="error">Title is required.</p>
+      }
     </div>
 
     <div>
       <label for="content">Content</label>
       <textarea id="content" formControlName="content"></textarea>
+      @if (createPostForm.get('content')?.invalid && createPostForm.get('content')?.touched) {
+        <p class="error">Content is required.</p>
+      }
     </div>
 
-    <button type="submit">Create Post</button>
+    <button [disabled]="createPostForm.invalid" type="submit">Create Post</button>
   </form>
 
   @if (hasUnsavedChanges()) {
