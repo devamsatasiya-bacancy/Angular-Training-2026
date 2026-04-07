@@ -1,6 +1,44 @@
-<div class="book-form">
-  <input class="book-form-input" type="text" placeholder="Title" [(ngModel)]="title" name="title" />
-  <input class="book-form-input" type="text" placeholder="Author" [(ngModel)]="author" name="author" />
-  <input class="book-form-input" type="number" placeholder="Price" [(ngModel)]="price" name="price" />
-  <input class="book-form-input" type="text" placeholder="Description" [(ngModel)]="description" name="description" />
+<div class="mb-3">
+  <label for="bookTitle" class="form-label">Title</label>
+  <input
+    id="bookTitle"
+    class="form-control"
+    type="text"
+    placeholder="Enter book title"
+    [(ngModel)]="title"
+    name="title"
+  />
+</div>
+<div class="mb-3">
+  <label for="bookAuthor" class="form-label">Author</label>
+  <input
+    id="bookAuthor"
+    class="form-control"
+    type="text"
+    placeholder="Enter author name"
+    [(ngModel)]="author"
+    name="author"
+  />
+</div>
+<div class="mb-3">
+  <label for="bookPrice" class="form-label">Price</label>
+  <input
+    id="bookPrice"
+    class="form-control"
+    type="number"
+    placeholder="Enter price"
+    [(ngModel)]="price"
+    name="price"
+  />
+</div>
+<div class="mb-3">
+  <label for="bookDescription" class="form-label">Description</label>
+  <textarea
+    id="bookDescription"
+    class="form-control"
+    rows="3"
+    placeholder="Enter book description"
+    [(ngModel)]="description"
+    name="description"
+  ></textarea>
 </div>

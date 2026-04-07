@@ -1,20 +1,10 @@
 <div class="listing-page">
-
   <app-toast [message]="toastMessage()" />
 
   <div class="listing-header">
     <h2>Book List</h2>
-    @if (!isFormOpen()) {
-      <button class="btn btn-primary" (click)="onAddBook()">+ Add Book</button>
-    }
+    <button class="btn btn-primary" (click)="onAddBook()">+ Add Book</button>
   </div>
-  @if (isFormOpen()) {
-    <div class="form-section">
-      <h3>{{ currentBookIndex() !== null ? 'Edit Book' : 'Add Book' }}</h3>
-      <app-book-form  [bookData]="selectedBook()" #bookFormComponent></app-book-form>
-      <button class="btn btn-primary" (click)="onSave()">Save</button> 
-    </div>
-  }
 
   <div class="book-grid">
     @for (book of bookList; track book.title; let i = $index) {
@@ -25,9 +15,38 @@
         (editClicked)="onEditBook($event)"
         (deleteClicked)="onDeleteBook($event)"
       />
+    } @empty {
+      <h2 class="listing-header">No books available.</h2>
     }
   </div>
 
-
-
+  <!-- Bootstrap Modal -->
+  <div
+    class="modal fade"
+    #bookModal
+    tabindex="-1"
+    aria-labelledby="bookModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="bookModalLabel">{{ modalTitle() }}</h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <app-book-form [bookData]="selectedBook()" #bookFormComponent></app-book-form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" (click)="onSave()">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
