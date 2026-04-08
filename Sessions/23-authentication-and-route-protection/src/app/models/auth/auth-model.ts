@@ -1,6 +1,6 @@
 export interface LoginResponseModel {
     userId:number;
-    userName:string;
+    username:string;
     email:string;
     role:string;
     accessToken:string;
@@ -9,7 +9,7 @@ export interface LoginResponseModel {
 }
 
 export interface LoginRequestModel{
-    email:string;
+    usernameoremail:string;
     password:string;
 }
 
