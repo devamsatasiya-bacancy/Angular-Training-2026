@@ -45,7 +45,7 @@ export class ContactUsForm implements OnInit {
     this.initCompanyForm();
   }
   clearProjectForm(index: number) {
-    console.log('clearing form at--->', index);
+    //console.log('clearing form at--->', index);
     const projectGroup = this.projectGroupsArray.at(index);
     //console.log(projectGroup)
     if (projectGroup) {
@@ -72,12 +72,23 @@ export class ContactUsForm implements OnInit {
   removeProjectForm(index: number): void {
     const projects = this.projectGroupsArray;
     if (projects) {
+      //console.log('🗑️ Removing project at index:', index);
       projects.removeAt(index);
+      
+      // Trigger re-validation on all remaining name fields after removal
+      setTimeout(() => {
+        //console.log('🔄 Re-validating all remaining projects');
+        projects.controls.forEach((control, idx) => {
+          const nameControl = control.get('name');
+          //console.log(`  Validating project ${idx}: ${nameControl?.value}`);
+          nameControl?.updateValueAndValidity();
+        });
+      }, 50);
     }
   }
   onCompanyFormSubmit(): void {
     if (this.companyForm?.valid) {
-      console.log(this.companyForm.value);
+      //console.log(this.companyForm.value);
       this.companyFormData = this.companyForm.value;
     }
     this.companyformService.setCompanyDetails(this.companyFormData!);
@@ -107,12 +118,17 @@ export class ContactUsForm implements OnInit {
   }
 
   getProjectFormGroup(): FormGroup {
-    return new FormGroup(
+    const formGroup: FormGroup = new FormGroup(
       {
         name: new FormControl('', {
           validators: [Validators.required , noWhitespaceValidator],
-          asyncValidators: [uniqueProjectNameValidator(this.projectGroupsArray.value)],
-          updateOn: 'blur',
+          asyncValidators: [
+            uniqueProjectNameValidator(
+              () => this.projectGroupsArray.value,
+              () => this.projectGroupsArray.controls.indexOf(formGroup)
+            )
+          ],
+          updateOn: 'change',
         }),
         description: new FormControl('', {
           validators: [Validators.required , noWhitespaceValidator],
@@ -125,6 +141,8 @@ export class ContactUsForm implements OnInit {
         validators: dateValidator,
       },
     );
+
+    return formGroup;
   }
 
   addProjectForm(): void {

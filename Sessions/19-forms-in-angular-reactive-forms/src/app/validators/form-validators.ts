@@ -1,5 +1,6 @@
 import { AbstractControl, ValidationErrors , AsyncValidatorFn, ValidatorFn, FormControl } from '@angular/forms';
 import { Observable, of } from 'rxjs';
+import { delay, map } from 'rxjs/operators';
 import { Project } from '../models/FormsModel';
 
 
@@ -12,16 +13,44 @@ export function dateValidator(control:AbstractControl): ValidationErrors | null 
   return isInvalid ? { 'invalidDateRange': true } : null;
 }
 
-export function uniqueProjectNameValidator(currentProjects: Project[]): AsyncValidatorFn {
+export function uniqueProjectNameValidator(
+  getProjects: () => any[], 
+  getIndex: () => number
+): AsyncValidatorFn {
   return (control: AbstractControl): Observable<ValidationErrors | null> => {
-    //console.log("hello" + control.value)
     if (!control.value) return of(null);
 
-    const isTaken = currentProjects.some(project => {
-      console.log(project.name + " --->" + control.value)
-      return project.name.toLowerCase() === control.value.toLowerCase()});
-    return of(isTaken ? { projectNameExists: true } : null);
+    const normalize = (val: string) => val.trim().toLowerCase();
+    const inputValue = normalize(control.value);
 
+    return of(null).pipe(
+      delay(300),
+      map(() => {
+        const projects = getProjects();
+        const currentIndex = getIndex();
+        
+        //console.log('🔍 Validating:', inputValue, '| My index:', currentIndex, '| Total projects:', projects.length);
+
+        const exists = projects.some((proj, index) => {
+          if (index === currentIndex) {
+            //console.log('  ⏭️  Skipping index', index, '(self)');
+            return false;
+          }
+          
+          const projName = proj.name ? normalize(proj.name) : '';
+          const matches = projName === inputValue;
+          
+          if (matches) {
+            //console.log('  ❌ Duplicate found at index', index, ':', proj.name);
+          }
+          
+          return matches;
+        });
+
+        //console.log('  ➡️  Result:', exists ? 'DUPLICATE' : 'UNIQUE');
+        return exists ? { projectNameExists: true } : null;
+      })
+    );
   };
 }
 

@@ -80,10 +80,10 @@
             <button class="outline-btn" type="button" (click)="addProjectForm()">Add Project</button>
           </div>
 
-          @for (item of projectGroupsArray.controls; track $index; let i = $index) {
+          @for (item of projectGroupsArray.controls; track item; let i = $index) {
             <div class="project-form" [formGroupName]="i">
               <div class="project-form-header">
-                <h3>Project {{ $index + 1 }}</h3>
+                <h3>Project {{ i + 1 }}</h3>
                 <div class="project-form-actions">
                   <button class="ghost-btn" type="button" (click)="clearProjectForm(i)">Clear</button>
                   <button class="ghost-btn danger-btn" type="button" (click)="removeProjectForm(i)">Remove Project</button>
@@ -91,8 +91,8 @@
               </div>
               <div class="project-grid">
                 <div class="form-group">
-                  <label for="projectName-{{ $index }}">Name:</label>
-                  <input id="projectName-{{ $index }}" formControlName="name" type="text" />
+                  <label for="projectName-{{ i }}">Name:</label>
+                  <input id="projectName-{{ i }}" formControlName="name" type="text" />
 
                   @if (
                     item.get('name')?.hasError('required') &&
@@ -112,9 +112,9 @@
                   }
                 </div>
                 <div class="form-group form-group-wide">
-                  <label for="projectDescription-{{ $index }}">Description:</label>
+                  <label for="projectDescription-{{ i }}">Description:</label>
                   <textarea
-                    id="projectDescription-{{ $index }}"
+                    id="projectDescription-{{ i }}"
                     formControlName="description"
                     type="text"
                   ></textarea>
@@ -131,8 +131,8 @@
 
                 </div>
                 <div class="form-group">
-                  <label for="projectStartDate-{{ $index }}">Start Date:</label>
-                  <input id="projectStartDate-{{ $index }}" formControlName="startDate" type="date" />
+                  <label for="projectStartDate-{{ i }}">Start Date:</label>
+                  <input id="projectStartDate-{{ i }}" formControlName="startDate" type="date" />
                   @if (
                     item.get('startDate')?.hasError('required') &&
                     item.get('startDate')?.touched
@@ -141,8 +141,8 @@
                   }
                 </div>
                 <div class="form-group">
-                  <label for="projectEndDate-{{ $index }}">End Date:</label>
-                  <input id="projectEndDate-{{ $index }}" formControlName="endDate" type="date" />
+                  <label for="projectEndDate-{{ i }}">End Date:</label>
+                  <input id="projectEndDate-{{ i }}" formControlName="endDate" type="date" />
                   @if (
                     item.get('endDate')?.hasError('required') &&
                     item.get('endDate')?.touched
