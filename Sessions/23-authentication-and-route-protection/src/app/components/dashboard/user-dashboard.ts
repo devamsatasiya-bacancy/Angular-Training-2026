@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.currentUser = this.authService.getCurrentUser();
 
-    console.log('Current User:', this.currentUser?.username); 
+    //console.log('Current User:', this.currentUser?.username); 
  
     if (!this.currentUser) {
       this.router.navigate(['/login']);

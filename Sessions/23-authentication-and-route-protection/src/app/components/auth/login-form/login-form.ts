@@ -48,10 +48,10 @@ export class LoginComponent {
       this.authService.login(loginRequest).subscribe({
         next: () => {
           this.isLoading = false;
-          console.log('LOGIN SUCCESS....')
+          //console.log('LOGIN SUCCESS....')
           // Navigation is handled in authService
           if (this.loginForm.value.rememberMe) {
-            console.log('SETTING logging email')
+            //console.log('SETTING logging email')
             localStorage.setItem('remembered_email', this.loginForm.value.email);
           } else {
             localStorage.removeItem('remembered_email');

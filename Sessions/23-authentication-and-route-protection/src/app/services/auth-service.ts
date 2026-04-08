@@ -60,7 +60,7 @@ export class AuthService {
   private handleAuthSuccess(response: LoginResponseModel): void {
     localStorage.setItem('auth_token', response.accessToken);
     localStorage.setItem('current_user', JSON.stringify(response));
-    console.log(response) 
+    //console.log(response) 
     this.currentUserSubject.next(response);
     this.isAuthenticated.set(true);
     this.router.navigate(['/dashboard']);
